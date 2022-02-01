@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int val;
+    node *left, *right;
+};
+
+node *newnode(int val)
+{
+    node *temp;
+    temp = new node;
+    temp->val = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+map<string,int> m;
+vector<node*> ans;
+string  usduputil(node *root)
+{
+    if(root->left  == NULL && root->right == NULL)
+    {
+        return "$";
+    }
+    string left = usduputil(root->left);
+    string right = usduputil(root->right);
+    string an = left+right;
+    char c = '0'+root->val;
+    an.push_back(c);
+    if(m.count(an) == 0)
+    {
+        m.insert({an,1});
+    }
+    else
+    {
+        m[an] ++;
+        if(m[an] == 2)
+        {
+            ans.push_back(root);
+        }
+    }
+    return an;
+}
+
+bool isdup(node *root)
+{
+    usduputil(root);
+    for(auto i : m)
+    {
+        if(i.second >=2)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+int main()
+{
+    node *root;
+    root = newnode(10);
+    root->left = newnode(-2);
+    root->right = newnode(-2);
+    root->left->left = newnode(8);
+    root->left->right = newnode(-4);
+    root->right->left = newnode(8);
+    root->right->right = newnode(-4);
+
+    bool flag = isdup(root);
+    if(flag)
+    {
+        cout<<"dup exist"<<endl;
+        cout<<"\nthe starting nodes are  :  ";
+        for(int i=0;i<ans.size();i++)
+        {
+            cout<<ans.front()->val<<"  ";
+        }
+        return 0;
+    }
+    cout<<"\nnotexits";
+    return 0;
+}

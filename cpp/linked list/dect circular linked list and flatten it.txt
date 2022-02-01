@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next;
+};
+
+node *newnode(int data)
+{
+    node *temp = new node;
+    temp->data = data;
+    temp->next = NULL;
+    return temp;
+}
+
+bool iscircular(node *root)
+{
+    node *p1, *p2;
+    p1 = root;
+    p2 = root;
+    bool flag = false;
+    while (p1 != NULL && p2 != NULL)
+    {
+        p1 = p1->next->next;
+        p2 = p2->next;
+        if (p1 == p2)
+        {
+            flag = true;
+            cout << "loop detected ";
+            break;
+        }
+    }
+    if(p1 == root)
+    {
+        cout<<"\nloop was cicular ";
+        return true;
+    }
+
+    return false;
+}
+
+void flaten(node **rootref)
+{
+    node *root  = *rootref;
+    node *temp=root;
+    while (temp->next != root)
+    {
+        temp=  temp->next;
+    }
+    node *t = temp;
+    temp->next = NULL;
+    temp = root;
+    *rootref  = temp;
+
+}
+
+int main()
+{
+    node *root;
+    root = newnode(1);
+    root->next = newnode(2);
+    root->next->next = newnode(3);
+    root->next->next->next = newnode(4);
+    root->next->next->next->next = newnode(5);
+    root->next->next->next->next->next = newnode(6);
+    root->next->next->next->next->next->next = root;
+
+    bool flag = iscircular(root);
+    if(flag)
+    {
+        flaten(&root);
+        cout<<"\nafter flatning the order is :  ";
+        while (root!= NULL)
+        {
+            cout<<root->data<<"  ";
+            root = root->next;
+        }
+        
+    }
+    return 0;
+}

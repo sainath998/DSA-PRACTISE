@@ -1,0 +1,114 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int val;
+    node *left, *right;
+};
+
+node *newnode(int val)
+{
+    node *temp;
+    temp = new node;
+    temp->val = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+bool ismirror(node *roota,node *rootb)
+{
+    if(roota == NULL)
+    {
+        if(rootb == NULL)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    bool left = ismirror(roota->left,rootb->left);
+    bool right = ismirror(roota->right,rootb->right);
+    if(roota->val == rootb->val)
+    {
+        return left && right;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+node* swap(node *root)
+{
+    if(root == NULL)
+    {
+        return NULL;
+    }
+    swap(root->left);
+    swap(root->right);
+    node *temp;
+    temp = root->left;
+    root->left = root->right;
+    root->right = temp;
+    return root;
+}
+
+// void print(node *root)
+// {
+//     queue<node*> s;
+//     s.push(root);
+//     while (!s.empty())
+//     {
+//         node *temp = s.front();
+//         cout<<temp->val<<"  ";
+//         s.pop();
+//         if(temp->left)
+//         s.push(temp->left);
+//         if(temp->right)
+//         s.push(temp->right);
+//     }
+// }
+
+node *mirror(node *root)
+{
+    root = swap(root);
+    return root;
+}
+
+int main()
+{
+    node *roota;
+    roota = newnode(10);
+    roota->left = newnode(-2);
+    roota->right = newnode(-2);
+    roota->left->left = newnode(8);
+    roota->left->right = newnode(-4);
+    roota->right->left = newnode(8);
+    roota->right->right = newnode(-4);
+    node *rootb;
+
+    rootb = newnode(10);
+    rootb->left = newnode(-2);
+    rootb->right = newnode(-2);
+    rootb->left->left = newnode(-4);
+    rootb->left->right = newnode(8);
+    rootb->right->left = newnode(-4);
+    rootb->right->right = newnode(8);
+    // roota = mirror(roota);
+    // cout<<"\na is  : ";
+    // print(roota);
+    // cout<<"\nb is :  ";
+    // print(rootb);
+    bool flag = ismirror(roota,rootb);
+    if(flag)
+    {
+        // cout<<"\nsymtric";
+        return true;
+    }
+    // cout<<"\nnot symetric";
+    return false;
+}

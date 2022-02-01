@@ -1,0 +1,41 @@
+
+int main()
+{
+    // reconstructive iternary usnng stack + dfs (pop element when u cannot go fwd (m[temp] ==0 and dlelete the element from m[temp] when ever we go to thatt so that when we come back we will start from the next of deleter))
+    unordered_map<string,set<string>> m;
+    m["jfk"].insert("atl");
+    m["jfk"].insert("sfo");
+    m["atl"].insert("jfk");
+    m["atl"].insert("sfo");
+    m["sfo"].insert("atl");
+    vector<string> ans;
+    stack<string> s;
+    s.push("jfk");
+    
+    while (s.empty() == false)
+    {
+        string temp = s.top();
+
+        if(m[temp].size() == 0) 
+        {
+            ans.push_back(temp);
+            s.pop();
+        }
+
+        else
+        {
+            auto i  = m[temp].begin();
+            s.push(*i);
+            m[temp].erase(i);
+        }
+    }
+
+    reverse(ans.begin(),ans.end());
+
+    for(int i=0;i<ans.size()-1;i++)
+    {
+        cout<<ans[i]<<" --> ";
+    }
+    cout<<ans[ans.size()-1];
+    
+}

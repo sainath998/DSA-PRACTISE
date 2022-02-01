@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// bellman ford
+
+void bellman(int n, int src, int dst, vector<vector<pair<int, int>>> adj)
+{
+    vector<int> dist(n,INT_MAX);
+    dist[0] =0;
+    
+    for(int i=0;i<n;i++)
+    {
+	//j and k will take o(e) as we are traversing all the edges one 
+        for(int j =0;j<adj.size();j++)
+        {
+            for(int k =0;k<adj[j].size();k++)
+            {
+                int node = adj[j][k].first;
+                if(adj[j][k].second+dist[j] < dist[node])
+                {
+                    dist[node] = adj[j][k].second+dist[j];
+                }
+            }
+        }
+    }
+    cout<<"\nthd dist are  : ";
+    for(int i=0;i<n;i++)
+    {
+        cout<<dist[i]<<" ";
+    }
+}
+
+int main()
+{
+    int n = 7;
+    vector<vector<pair<int, int>>> v(n);
+    v[0].push_back(make_pair(1, 10));
+    v[0].push_back(make_pair(3, 40));
+    v[1].push_back(make_pair(0, 10));
+    v[1].push_back(make_pair(2, 10));
+    v[2].push_back(make_pair(1, 10));
+    v[2].push_back(make_pair(3, 10));
+    v[3].push_back(make_pair(0, 40));
+    v[3].push_back(make_pair(4, 2));
+    v[4].push_back(make_pair(3, 2));
+    v[4].push_back(make_pair(5, 3));
+    v[4].push_back(make_pair(6, 10));
+    // v[4].push_back(make_pair(6, 4));   //->gives 36
+    v[5].push_back(make_pair(4, 3));
+    v[5].push_back(make_pair(6, 3));
+    v[6].push_back(make_pair(4, 8));
+    v[6].push_back(make_pair(5, 3));
+
+    bellman(n, 0, 6, v);
+}

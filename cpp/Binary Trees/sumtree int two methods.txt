@@ -1,0 +1,160 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *left, *right;
+};
+
+struct node *newnode(int data)
+{
+    struct node *temp;
+    temp = new node;
+    temp->data = data;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+void sumtree(node *root)
+{
+    cout<<"\nroot is  : "<<root->data;
+    if (root == NULL)
+    {
+        return ;
+    }
+   
+    if (root->left == NULL && root->right == NULL)
+    {
+        return;
+    }
+    else if (root->left == NULL)
+    {
+        sumtree(root->right);
+        root->data = root->data + root->right->data;
+    }
+    else if (root->right == NULL)
+    {
+        sumtree(root->left);
+        root->data = root->data + root->left->data;
+    }
+    else
+    {
+         sumtree(root->left);
+    sumtree(root->right);
+        root->data = root->data + root->left->data + root->right->data;
+    }
+}
+void level(node *root)
+{
+    queue<node*> q;
+    q.push(root);
+    while (q.empty()== false)
+    {
+        node *curr;
+        curr = q.front();
+        q.pop();
+        if(curr->left)
+        {
+            q.push(curr->left);
+        }
+        if(curr->right)
+        {
+            q.push(curr->right);
+        }
+        cout<<curr->data<<"  ";
+    }
+    
+}
+int main()
+{
+    node *root;
+    root = newnode(1);
+    root->left = newnode(2);
+    root->right = newnode(3);
+    root->left->left = newnode(4);
+    root->left->right = newnode(5);
+    root->right->left = newnode(6);
+    root->right->right = newnode(7);
+    // sum tree
+    level(root);
+    sumtree(root);
+    cout << endl;
+    level(root);
+}
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *left, *right;
+};
+
+struct node *newnode(int data)
+{
+    struct node *temp;
+    temp = new node;
+    temp->data = data;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+int sumtree(node *root)
+{
+    if(!root)
+    {
+        return 0;
+    }
+    if(!root->left && !root->right)
+    {
+        return root->data;
+    }
+    int  a = sumtree(root->left);
+    int b = sumtree(root->right);
+    root->data = root->data + a+b;
+    return  root->data;
+}
+
+void level(node *root)
+{
+    queue<node*> q;
+    q.push(root);
+    while (q.empty()== false)
+    {
+        node *curr;
+        curr = q.front();
+        q.pop();
+        if(curr->left)
+        {
+            q.push(curr->left);
+        }
+        if(curr->right)
+        {
+            q.push(curr->right);
+        }
+        cout<<curr->data<<"  ";
+    }
+    
+}
+
+
+int main()
+{
+    node *root;
+    root = newnode(1);
+    root->left = newnode(2);
+    root->right = newnode(3);
+    root->left->left = newnode(4);
+    root->left->right = newnode(5);
+    root->right->left = newnode(6);
+    root->right->right = newnode(7);
+    // sum tree
+    level(root);
+    sumtree(root);
+    cout << endl;
+    level(root);
+}

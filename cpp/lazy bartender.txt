@@ -1,0 +1,76 @@
+https://youtu.be/5Du2iSRrbEw   ->minium no i fjumps
+
+
+
+
+public class LazyBartender {
+
+
+	private List<List<Integer>> preferences;
+    
+    LazyBartender(List<List<Integer>> preferences) {
+        this.preferences = preferences;
+    }
+    
+    public void solve() {
+        
+        List<Integer> result = new ArrayList<>();
+        Map<Integer, List<Integer>> map = new TreeMap<>();
+        
+        int customerId = 0;
+        for (List<Integer> preference : preferences) {
+            for (int drinkType : preference) {
+                map.putIfAbsent(drinkType, new ArrayList<>());
+                map.get(drinkType).add(customerId);
+            }
+            customerId++;
+        }
+     
+        Map<Integer, List<Integer>> temp = new HashMap<>();
+        
+        while (map.size() != 0) {
+            
+            int largest = -1;
+            
+            for (int k : map.keySet()) {
+                if (map.get(k).size() > largest)
+                    largest = k;
+            }
+            
+            result.add(largest); // drink type that served max customers
+            
+            List<Integer> customersServed = map.get(largest);
+            
+            // Remove these customers from all drinks that might have been ordered by these customers
+            map.remove(largest); // Remove 
+            
+            temp = new HashMap<>(map);
+            
+            for (int customer : customersServed) {
+            		for (int drink : map.keySet()) {
+            			if (map.get(drink).contains(customer)) {
+            				temp.get(drink).remove(new Integer(customer));
+            				if (temp.get(drink).size() == 0)
+            					temp.remove(drink);
+            			}
+            		}
+            }
+    			
+            map = new HashMap<>(temp);
+        }
+        System.out.println("Drinks served by bartender are : " + result);
+    }
+    
+	 main(String[] args) {
+		
+		List<List<Integer>> preferences = new ArrayList<>();
+		preferences.add(Arrays.asList(3, 7, 5, 2, 9));
+		preferences.add(Arrays.asList(5));
+		preferences.add(Arrays.asList(2, 3));
+		preferences.add(Arrays.asList(4));
+		preferences.add(Arrays.asList(3, 4, 5, 7));
+		
+		LazyBartender lazybum = new LazyBartender(preferences);
+		lazybum.solve();
+	}
+} 

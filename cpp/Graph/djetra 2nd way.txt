@@ -1,0 +1,98 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+pair<int, int> addEdge(vector<pair<int, int>> graph[], int a, int b, int c)
+{
+    graph[a].push_back(make_pair(b, c));
+    graph[b].push_back(make_pair(a, c));
+}
+
+struct cl
+{
+public:
+    int src, cost;
+    string asf;
+    cl(int a, int b, string c)
+    {
+        this->src = a;
+        this->cost = b;
+        this->asf = c;
+    }
+};
+
+class comparator
+{
+    public:
+
+    bool operator()(cl a,cl b)
+    {
+        if(b.cost-a.cost >0)
+        {
+            return false;
+        }
+        return true;
+    }
+};
+
+void djetra(int n, vector<pair<int, int>> graph[], int src, int dst)
+{
+    priority_queue<cl,vector<cl>,comparator> q;
+    q.push(cl(src, 0, to_string(src)));
+    vector<bool> visited(n, false);
+    string ans = "";
+    while (q.empty() == false)
+    {
+        cl ab = q.top();
+        int rem = q.top().src;
+        q.pop();
+        // ans = ans + to_string(rem);
+        ans = ans+to_string(rem)+"-";
+        if (rem == dst)
+        {
+            ans = ab.asf;
+            break;
+        }
+        if(visited[rem] == true)
+        {
+            continue;
+        }
+        visited[rem] = true;
+        for (auto i : graph[rem])
+        {
+            if (visited[i.first] == false)
+            {
+                q.push(cl(i.first, ab.cost + i.second, ab.asf + "-" + to_string(i.first)));
+            }
+        }
+    }
+    cout << ans;
+}
+
+int main()
+{
+    int n = 7;
+    vector<pair<int, int>> graph[n];
+
+    addEdge(graph, 0, 1, 10);
+    addEdge(graph, 0, 3, 40);
+    addEdge(graph, 1, 2, 10);
+    addEdge(graph, 2, 3, 10);
+    addEdge(graph, 3, 4, 2);
+    addEdge(graph, 4, 5, 3);
+    addEdge(graph, 4, 6, 8);
+    addEdge(graph, 5, 6, 3);
+
+    cout << "the graph  is : \n";
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << i << " --> ";
+        for (auto node : graph[i])
+        {
+            cout << node.first << " ";
+        }
+        cout << "\n";
+    }
+
+    djetra(n, graph, 0, 6);
+}

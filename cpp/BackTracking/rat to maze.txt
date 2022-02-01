@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int con=0;
+int findpaths(vector<vector<int>> ma,int x,int y,int m,int n)
+{
+    cout<<"\nx and y are  : "<<x <<"   "<<y;
+    if(x< 0 || x>=m || y<0 || y>=n )
+    {
+        return 0;
+    }
+    if(x== m - 1 && y == n-1)
+    {
+        cout<<"\nreached destinaltion";
+        
+        con++;
+        return 0;
+    }
+    if(ma[x][y] == 0)
+    {
+        return 0;
+    }
+    if(y == m-1)
+    {
+        x++;
+        y=0;
+    }
+    findpaths(ma,x+1,y,m,n);
+    findpaths(ma,x,y+1,m,n);
+    return 0;  
+}
+
+int main()
+{
+    vector<vector<int>> v  = {{1, 0, 0, 0},
+         {1, 1, 0, 1}, 
+         {1, 1, 0, 0},
+         {0, 1, 1, 1}};
+    int m =v.size(),n =v[0].size();
+    findpaths(v,0,0,m,n);
+    cout<<"the total paths are  :  "<<con;
+    return 0;
+}

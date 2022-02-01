@@ -1,0 +1,146 @@
+// cycle for undirected graph
+
+
+bool isCyclic(vector<vector<int>> &adj,int src,vector<bool> &vis)
+    {
+        queue<int> q;
+        q.push(src);
+            
+        while(q.size()>0)
+        {
+            int temp = q.front();
+            q.pop();
+            if(vis[temp] == true)
+            {
+                return true;
+            }
+            vis[temp] = true;
+            for(int i =0;i<adj[src].size();i++)
+            {
+                if(vis[i]  == false)
+                {
+                    q.push(adj[src][i]);
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+vector<bool> vis(numCourses,false);
+        for(int v =0;v< numCourses;v++)
+        {
+            if(vis[v] == false)
+            {
+                bool cycle = isCyclic(adj,v,vis);
+                if(cycle)
+                {
+                    vector<int> ex;
+                    return ex;
+                }
+            }
+        }
+        
+
+
+
+
+
+
+//  cycle for directred graph
+
+//  0-> not processed so make it processed 
+// 1-> processing again 1 come then it was cycle  after processing make it as processed so that again we won't process it for saving time
+// 2-> already processed and know there is no loop y waste time return false
+
+
+
+// rember one main point visited was called by refernce not by value
+
+bool isCyclicUtil(vector<vector<int>> &adj, vector<int> &visited, int v)
+{
+    if (visited[v] == 1)
+    {
+        return true;
+    }
+
+    if (visited[v] == 2)
+    {
+        return false;
+    }
+    visited[v] = 1;
+    for (int i = 0; i < adj[v].size(); i++)
+    {
+        if (isCyclicUtil(adj, visited, adj[v][i]))
+        {
+            return true;
+        }
+    }
+    visited[v] = 2;
+    return false;
+}
+
+bool isCyclic(int n, vector<vector<int>> &adj)
+{
+    bool flag = false;
+    vector<int> visited(n, 0);
+    for (int i = 0; i < n; i++)
+    {
+        if (!visited[i])
+        {
+            if (isCyclicUtil(adj, visited, i))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+//  for undirected we pass visited call by value not refernce
+// as it was bidirectional so when vis =1 then it was reached 
+// by the adj node so we make it 2  remember we giving call by value not refernece
+// if we see vis as 2 then then we came for 2nd time so we return true (if 1 then it was by adj)
+
+
+bool isCyclic_util(vector<int> adj[], vector<int> visited, int curr)
+{
+    if(visited[curr]==2)
+        return true;
+    
+    visited[curr] = 1;
+    bool FLAG = false;
+    for(int i=0;i<adj[curr].size();++i)
+    {
+        // visiting 2nd time it may be the adj node
+        if(visited[adj[curr][i]]==1)
+            visited[adj[curr][i]] = 2;
+        else
+        {
+            FLAG = isCyclic_util(adj, visited, adj[curr][i]);
+            if(FLAG==true)
+                return true;
+        }
+    }
+    return false;
+}
+
+bool isCyclic(vector<int> adj[], int V)
+{
+   vector<int> visited(V,0);
+   bool FLAG = false;
+   for(int i=0;i<V;++i)
+   {
+        visited[i] = 1;
+        for(int j=0;j<adj[i].size();++j)
+        {
+            FLAG = isCyclic_util(adj,visited,adj[i][j]);
+            if(FLAG==true)
+                return true;
+        }
+        visited[i] = 0;
+   }
+   return false;
+}

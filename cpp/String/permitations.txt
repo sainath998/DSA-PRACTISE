@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+using namespace std;
+set<string> st;
+void solve(string s,string asf)
+{
+    if(s.length() == 0)
+    {
+        if(st.find(asf)  == st.end())
+        {
+            cout<<asf<<" ";
+            st.insert(asf);
+        }
+        return ;
+    }
+
+    for(int i =0;i<s.length();i++)
+    {
+        string temp ;
+        temp  = s.substr(0,i);
+        temp = temp + s.substr(i+1);
+        asf.push_back(s[i]);
+        solve(temp,asf);
+        asf.pop_back();
+        solve(temp,asf);
+    }
+}
+
+int main()
+{
+    string s = "abcd";
+    int n = s.length();
+
+    // print permitations
+
+    solve(s,"");
+    
+}

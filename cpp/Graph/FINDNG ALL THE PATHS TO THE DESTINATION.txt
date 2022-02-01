@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool visited[7];
+
+string ispath(vector<vector<int>> &graph, int src, int destination,string path,vector<string> &paths)
+{
+	cout<<"\nentereing the vetex "<<src;
+	if (src == destination)
+	{
+		paths.push_back(path);
+        return "";
+	}
+	visited[src] = true;
+	for (int j=0;j<graph[src].size();j++)
+	{
+		if (visited[graph[src][j]] == false)
+		{
+			ispath(graph,graph[src][j], destination,path+to_string(graph[src][j]),paths);
+		}
+	}
+    visited[src] = false;
+	return "";
+}
+
+int main()
+{
+	int vertices = 7;
+	int edges = 8;
+	vector<vector<int>> graph(vertices);
+	int x[edges] = {0,1,2,0,3,4,5,4},
+		y[edges] = {1,2,3,3,4,5,6,6};
+	// creation
+	for (int i = 0; i < edges; i++)
+	{
+		graph[x[i]].push_back(y[i]);
+		graph[y[i]].push_back(x[i]);
+	}
+	
+	for (int i = 0; i < 7; i++)
+	{
+		visited[i] = false;
+	}
+    vector<string>paths;
+	ispath(graph, 0, 6,"0",paths);
+    int i=0;
+    while (!paths.empty())
+    {
+        cout<<"\n"<<paths[i];
+        paths.pop_back();
+        i++;
+    }
+    
+	return 0;
+}

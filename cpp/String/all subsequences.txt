@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void sovle(string s,string asf)
+{
+    if(s.length() == 0)
+    {
+        cout<<asf<<" ";
+        return ;
+    }
+    asf.push_back(s[0]);
+    s = s.substr(1);
+    sovle(s,asf);
+    asf.pop_back();
+    sovle(s,asf);
+    
+}
+
+int main()
+{
+    // subsequences 
+    string s = "abc";
+
+    sovle(s,"");
+    
+}

@@ -1,0 +1,77 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void heap(int arr[],int value,int n)
+{
+    arr[n] = value;                         // array not changes since alreay arr[n] = value
+    int parent = (n-1)/2;
+    int i = n;                         // i will go from bottom to top untill condn not satisfy
+    while (arr[parent] < arr[i])
+    {
+        swap(arr[parent],arr[i]);
+        i = parent;
+        parent = (i-1)/2;
+    }
+    return ;
+}
+
+int  delet(int arr[],int n)
+{
+    int k = arr[0];
+    arr[0] = arr[n];
+    n--;
+    int i=0;
+    int lchild = 2*i+1,rchild = 2*i+2;
+    while (lchild <n && rchild<n)
+    {
+        if(arr[rchild] > arr[i]|| arr[lchild] > arr[i])
+        {
+            if(arr[lchild] > arr[lchild])
+            {
+                swap(arr[lchild],arr[i]);
+                i = lchild;
+                lchild = 2*i+1;
+                rchild = 2*i+2;
+            }
+            else
+            {
+                swap(arr[rchild],arr[i]);
+                i = rchild;
+                lchild = 2*i+1;
+                rchild = 2*i+2;
+            }
+        }
+        else{return k;}
+    }
+    return k;
+}
+
+int main()
+{
+    // kth max  in an array
+    int arr[] = {5,4,7,2,3,9};
+    int n= sizeof(arr)/sizeof(int);
+    int k = 2;
+    // forming a heap 
+    for(int i =0;i<n;i++)
+    {
+        heap(arr,arr[i],i);
+    }
+    // printing the heap
+    cout<<"\n";
+    for(int i=0;i<n;i++)
+    {
+        cout<<arr[i]<<"  ";
+    }
+    cout<<endl;
+    // popint  k times to get kth max elelent
+    int sor[k];
+    int ind =0;
+    while (ind <k)
+    {
+        sor[ind] = delet(arr,n-1);
+        n--;ind++;
+    }
+    cout<<"\nthe kth largest element  is :  "<<sor[k-1];
+    return 0;
+}

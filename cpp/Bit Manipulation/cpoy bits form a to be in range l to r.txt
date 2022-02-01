@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int a = 2,b=5;
+    // how many bits to flip to convert a to bm
+    int l = 2,r=3;
+
+
+    int mask =1;
+    mask = mask<<(r-l+1);
+
+    mask = mask-1;
+
+    mask = mask<<(l-1);
+
+    int ans;
+    ans = mask & a;
+
+    ans  = ans & b;
+
+
+    return ans;
+    
+}

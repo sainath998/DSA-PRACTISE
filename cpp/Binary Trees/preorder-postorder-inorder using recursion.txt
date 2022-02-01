@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct tree
+{
+    int data;
+    tree *left,*right;
+};
+
+tree *newnode(int data)
+{
+    tree *temp = new tree;
+    temp->data  =data;
+    temp->left = NULL;
+    temp->right = NULL;
+}
+
+void inorder(tree *root)
+{
+    if(root == NULL)
+    {
+        return ;
+    }
+    cout<<root->data<< "  ";
+    inorder(root->left);
+    inorder(root->right);
+}
+
+void preorder(tree *root)
+{
+    if(root == NULL)
+    {
+        return ;
+    }
+    preorder(root->left);
+    cout<<root->data<<"  ";
+    preorder(root->right);
+}
+
+void postorder(tree *root)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    postorder(root->right);
+    cout<<root->data<<"  ";
+    postorder(root->left);
+}
+
+int main()
+{
+    // inorder treversal
+    tree *root;
+    root = newnode(1);
+    root->left = newnode(2);
+    root->right = newnode(3);
+    root->left->left = newnode(4);
+    root->left->right = newnode(5);
+    root->right->left = newnode(6);
+    root->right->right = newnode(7);
+
+    // inorder(root);
+    // preorder(root);
+    postorder(root);
+}

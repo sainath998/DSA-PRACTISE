@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int arr[] ={2,3,1,5,2,2,4};
+    int n = sizeof(arr)/sizeof(int);
+    int dp[n];
+    for(int i=0;i<n;i++)
+    {
+        dp[i] = INT_MAX;
+    }
+
+    dp[0] =0;
+    for(int i=1;i<n;i++)
+    {
+        for(int j=0;j<i;j++)
+        {
+            // checl weather we can reach j or not
+            if(dp[j] != INT_MAX)
+            {
+                // check weather we can reach i from j usng arr[j] or not
+                if(arr[j]+j >= i)
+                {
+                    // checl weather it was minimum to come from j to i or alreay it was a minium
+                    // if(dp[j]+1 < dp[i])
+                    // {
+                    //     dp[i] = dp[j]+1;
+                    // } or
+                    dp[i] = min(dp[i],dp[j]+1);
+                }
+            }
+        }
+    }
+
+    if(dp[n-1] != INT_MAX)
+    {
+        cout<<"reached the end with steps : "<<dp[n-1];
+    }
+    else
+    {
+        cout<<"not reahced the end";
+    }
+    return 0;
+}

@@ -1,0 +1,86 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void findlis(string pat, int n, int lis[])
+{
+    int count = 0;
+    int i = 1;
+    while (i < n)
+    {
+        if (pat[i] == pat[count])
+        {
+            lis[i] = count + 1;
+            count++;
+            i++;
+        }
+        else
+        {
+            if (count == 0)
+            {
+                lis[i] = 0;
+                i++;
+            }
+            else
+            {
+                count = lis[count - 1];
+            }
+        }
+    }
+}
+
+int main()
+{
+    // kmp algo
+    string txt = "THIS IS A TEST TEXT";
+    string pat = "TES T";
+    int n = pat.length();
+    int lis[n];
+    for (int i = 0; i < n; i++)
+    {
+        lis[i] = 0;
+    }
+    findlis(pat, n, lis);
+    bool flag = false;
+    int i = 0;
+    int m = txt.length();
+    if (n > m)
+    {
+        cout << "not found";
+        return 0;
+    }
+    int ptr = 0;
+    while (i < m)
+    {
+        if (ptr == n-1)
+        {
+            flag = true;
+            break;
+        }
+        if (txt[i] == pat[ptr])
+        {
+            i++;
+            ptr++;
+        }
+        else
+        {
+            if (ptr != 0)
+            {
+                ptr = lis[ptr - 1];
+            }
+            else
+            {
+                ptr = 0;
+                i++;
+            }
+        }
+    }
+    if (flag)
+    {
+        cout << "\ntext was matche : ) at the index  :  "<<i-ptr;
+    }
+    else
+    {
+        cout << "\ntext was not matched  :(";
+    }
+    return 0;
+}

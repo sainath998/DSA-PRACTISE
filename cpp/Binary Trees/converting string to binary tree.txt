@@ -1,0 +1,104 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *left, *right;
+};
+
+node *createnode(int data)
+{
+    node *temp = new node;
+    temp->left = NULL;
+    temp->right = NULL;
+    temp->data = data;
+    return temp;
+}
+
+int start =0;
+node *construct(string s,bool l1,bool l2)
+{
+    cout<<"\nstarting of the fu string and start are  :  "<<s.substr(start)<<"   "<<start;
+    if (start >= s.length())
+    {
+        return NULL;
+    }
+    bool neg = false;
+
+    if (s[start] == '-')
+    {
+        neg = true;
+    }
+    int num = 0;
+    while (start < s.length() && s[start] - '0' <= 9 && s[start] - '0' >= 0)
+    {
+        int val = s[start]-'0';
+        num = num * 10 + val;
+        start++;
+        cout<<"\nthking value :  "<<val<<"   frm string remainng :   "<<s.substr(start);
+    }
+    
+    if (neg)
+    {
+        num = -num;
+    }
+    node *root;
+    root = createnode(num);
+    cout<<"\ngot num as   : "<<root->data;
+
+    if(start >= s.length())
+    {
+        return root;
+    }
+    if (start < s.length() && s[start] == '(')
+    {
+        start++;
+        cout<<"\nopening left";
+        root->left = construct(s, true,false);
+    }
+
+    if (start < s.length() && s[start] == ')'  && l1 == true)
+    {
+        start++;
+        l1 = false;
+        cout<<"\nclosing left";
+        return root;
+    }
+    cout<<"\nafer closing left now the string is and the start is "<<s.substr(start)<<"    "<<start;
+    if (start < s.length() && s[start] == '(')
+    {
+        start++;
+        cout<<"\nassigning right as  :   "<<s[start];
+        root->right = construct(s, false,true);
+    }
+
+    if (start < s.length() && s[start] == ')' && l2)
+    {
+        l2 = false;
+        start++;
+        return root;
+    }
+    
+    return root;
+}
+
+void print(node *root)
+{
+    if (!root)
+    {
+        return;
+    }
+    cout << root->data << "   ";
+    print(root->left);
+    print(root->right);
+}
+
+int main()
+{
+    string s = "1(2)(3)";
+    int n = s.length();
+    node *root = construct(s,false,false);
+    cout << "\nprinting" << endl;
+    cout<<root->data<<"   "<<root->left->data<< "  "<<root->right->data; 
+}

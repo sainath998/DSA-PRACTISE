@@ -1,0 +1,31 @@
+in prims algo we will seach from the node where we present and push them into queue
+
+in krskals algo we will sort according to wts and check weather we can include certain edge or not by chceking the cycles fi we can then inclue (edge++ ) when edge == n-1 then return it
+
+prims ,krskals => mst
+
+shortest dist from node-> all other(shortest dst from src -> dst) 
+
+-> djkestra's (not work with -ve edge and also with -ve cycle)     ---> greedy algo 
+
+-> bellman (work with -ve edge , but not with -ve cycles(since no optimal path as we move the path cost decrease) )-> not 	
+	greedy
+
+-> floyed warshall( work with -ve edge not with -ve cycle)
+   ->it founds shortest path from any  node to any node( not only from src)
+   
+dijektras,bellman,floyed =>> less cost fom src to dst 
+
+-----------------------------------
+   
+bfs -> shortest dist from one end to another with shortest path
+djkestra -> shortest dist from one end to another with less cost 
+prims -> shotest wire to cover all the nodes 
+--------------------------------------------------
+ 
+dijektras algo :  same as breadth for search (uses priority queue),pathsofar,totalcost = prev+curr    
+
+prims  : same as dijektras algo we dont add the prev sum to coast (uses priority queue)
+ 
+
+ 

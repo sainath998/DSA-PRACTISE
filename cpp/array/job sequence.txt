@@ -1,0 +1,111 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct elem
+{
+    int id;
+    int sdate;
+    int edate;
+    int profit;
+};
+
+bool cmp(elem a, elem b)
+{
+    if (a.profit > b.profit)
+    {
+        return true;
+    }
+    return false;
+}
+
+void solve(vector<elem> arr, int jobs)
+{
+    sort(arr.begin(), arr.end(), cmp);
+
+    int n;
+    int max = INT_MIN;
+    for (int i = 0; i < jobs; i++)
+    {
+        if (max < arr[i].edate)
+        {
+            max = arr[i].edate;
+        }
+    }
+    n = max+1;
+    cout<<"\nn is : "<<n;
+    vector<int> profit(n, -1);
+
+    for (int i = 0; i < jobs; i++)
+    {
+        // cout << "\ntaking the job : " << arr[i].profit<<"  has date b/w : "<<arr[i].sdate<<","<<arr[i].edate;
+        if (profit[arr[i].edate] == -1)
+        {
+            // cout << "\nselected";
+            profit[arr[i].edate] = arr[i].profit;
+        }
+        else
+        {
+            int a = arr[i].sdate;
+            int b = arr[i].edate - 1;
+
+            while (b >= a && profit[b] != -1)
+            {
+                b--;
+            }
+            if (b >= a )
+            {
+                // cout << "\nselected";
+                profit[b] = arr[i].profit;
+            }
+        }
+    }
+    cout << "\nthe profits are : ";
+    //  n is taken as n+1
+    for (int i = 1; i <n; i++)
+    {
+        cout << profit[i] << "  ";
+    }
+}
+
+int main()
+{
+    int jobs = 8;
+    vector<elem> arr(jobs);
+    arr[0].sdate = 1;
+    arr[1].sdate = 1;
+    arr[2].sdate = 1;
+    arr[3].sdate = 1;
+    arr[4].sdate = 1;
+    arr[5].sdate = 1;
+    arr[6].sdate = 1;
+    arr[7].sdate = 1;
+
+    arr[0].edate = 2;
+    arr[1].edate = 6;
+    arr[2].edate = 6;
+    arr[3].edate = 5;
+    arr[4].edate = 4;
+    arr[5].edate = 2;
+    arr[6].edate = 4;
+    arr[7].edate = 2;
+
+    arr[0].id = 0;
+    arr[1].id = 1;
+    arr[2].id = 2;
+    arr[3].id = 3;
+    arr[4].id = 4;
+    arr[5].id = 5;
+    arr[6].id = 6;
+    arr[7].id = 7;
+
+    arr[0].profit = 80;
+    arr[1].profit = 70;
+    arr[2].profit = 65;
+    arr[3].profit = 60;
+    arr[4].profit = 25;
+    arr[5].profit = 22;
+    arr[6].profit = 20;
+    arr[7].profit = 10;
+
+    solve(arr, jobs);
+}

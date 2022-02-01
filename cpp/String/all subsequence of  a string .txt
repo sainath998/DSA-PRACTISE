@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void print(string sup,int i,int n,string s)
+{
+    if(i == n)
+    {
+        cout<<sup<<" ";
+    }
+    else
+    {
+        print(sup,i+1,n,s);
+        sup = sup+s[i];
+        print(sup,i+1,n,s);
+    }
+
+}
+
+int main()
+{
+    string s = "abcd";
+    int n =s.length();
+    print("",0,n,s);
+}

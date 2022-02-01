@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool is_attaced(vector<vector<int>> board, int x, int y, int n)
+{
+    // row attach
+    // column attack
+
+    for (int i = 0; i < n; i++)
+    {
+        if (board[x][i] == 1 && i != y)
+        {
+            return true;
+        }
+        if (board[i][y] == 1 && i !=x)
+        {
+            return true;
+        }
+    }
+
+    // diagonal attack
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (((i + j) == (x + y)) || ((i - j) == (x - y)))
+            {
+                if (((i != x) || (j != y)) && (board[i][j] == 1))
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+bool flag = false;
+bool nqueens(vector<vector<int>> board, int level, int n)
+{
+    if (level == n)
+    {
+        flag = true;
+        return true;
+    }
+
+    for (int j = 0; j < n; j++)
+    {
+        if (is_attaced(board, level, j, n) == false)
+        {
+            board[level][j] = 1;
+            nqueens(board, level + 1, n);
+            board[level][j] = 0;
+        }
+    }
+    return false;
+}
+
+int main()
+{
+    int n = 0;
+    vector<vector<int>> board  = { 
+                                                        { 0, 0, 0, 0 }, 
+                                                        { 0, 0, 0, 0 }, 
+                                                        { 0, 0, 0, 0 }, 
+                                                        { 0, 0, 0, 0 }
+                                                    }; 
+
+    nqueens(board,0,4);
+
+    if(flag )
+    {
+        cout<<"\nYes";
+    }
+    else
+    {
+        cout<<"\nNo";
+    }
+    return 0;
+    
+}

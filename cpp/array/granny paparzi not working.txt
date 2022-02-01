@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+long int main()
+{
+    long long int t;
+    cin >> t;
+    while (t--)
+    {
+        /* code */
+        long long int n;
+        cin >> n;
+        long long int arr[n];
+        for (long long int i = 0; i < n; i++)
+        {
+            cin >> arr[i];
+        }
+        stack<pair<long long int, long long int>> s;
+        
+        s.push(make_pair(0, arr[0]));
+        s.push(make_pair(1, arr[1]));
+
+        long long int i = 2;
+        while (i < n)
+        {
+            pair<long long int, long long int> a = s.top();
+            s.pop();
+            pair<long long int, long long int> b = s.top();
+            s.pop();
+
+            double m1 = (b.second - a.second) / (b.first - a.first);
+            pair<long long int, long long int> c;
+            c.first = i;
+            c.second = arr[i];
+            i++;
+
+            double m2 = (c.second - a.second) / (c.first - a.first);
+
+            if (m1 <= m2)
+            {
+                s.push(b);
+                s.push(c);
+            }
+            else
+            {
+                s.push(b);
+                s.push(a);
+                s.push(c);
+            }
+        }
+
+        long long int ans = 0;
+
+        while (!s.empty())
+        {
+            pair<long long int, long long int> a = s.top();
+            s.pop();
+            if (!s.empty())
+            {
+                pair<long long int, long long int> b = s.top();
+                s.pop();
+                ans = max(ans, a.first - b.first);
+                s.push(b);
+            }
+        }
+        cout << ans<<"\n";
+    }
+}

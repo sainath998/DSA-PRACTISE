@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  int arr[] = {10, 22, 5, 75, 65, 80};
+  int n = sizeof(arr)/sizeof(int);
+  // buy and sell stock
+  int left[n];
+  int right[n];
+  int minium=arr[0];
+  int maxiumprofit = 0;
+  left[0] =0;
+  for(int i=1;i<n;i++)
+  {
+    if(arr[i] < minium)
+    {
+      minium = arr[i];
+    }
+    left[i] = max(arr[i]-minium,left[i-1]);
+
+  }
+  int maxium=arr[n-1];
+  right[n-1] =0;
+  for(int i=n-2;i>=0;i--)
+  {
+    if(maxium < arr[i])
+    {
+      maxium = arr[i];
+    }
+    right[i]= max(maxium-arr[i],right[i+1]);
+  }
+  int result=0;
+  for(int i=0;i<n-1;i++)
+  {
+    result = max(result,left[i]+right[i+1]);
+  }
+  cout<<"the maxiumimum profit was  :  "<<result;
+  return 0;
+}

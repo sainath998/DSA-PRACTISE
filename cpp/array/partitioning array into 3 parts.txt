@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  int arr[]  = {1, 2,6,9,8,1,2,4,5,6,7,8,9,3,3,4,4,5,3,2};
+  int n  = sizeof(arr)/sizeof(int);
+  // 3 way partition
+  int k1 =3,k2=5;
+  // expected   1 2  2         3           4 6
+  int p1=0,p2=0,p3=n-1,i=0;
+  while (p2  < p3)
+  {
+    if(arr[p2] <k1)
+    {
+      swap(arr[p1],arr[p2]);p2++;p1++;
+    }
+    else if (arr[p2] >= k1   && arr[p2] <= k2)
+    {
+      p2++;
+    }
+    else
+    {
+      swap(arr[p2],arr[p3]);
+      p3--;
+    }
+  }
+  
+  cout<<"the resultant array is  :  ";
+  for(int i=0;i<n;i++)
+  {
+    cout<<arr[i]<<"  ";
+  }
+  return 0;
+}

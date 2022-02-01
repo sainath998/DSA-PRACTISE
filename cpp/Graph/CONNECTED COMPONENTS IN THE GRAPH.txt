@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool visited[7];
+int counting =0;
+
+void takecomp(vector<vector<int>> &graph, int src, int vertices,vector<int>&comp)
+{
+	comp.push_back(src);
+	visited[src] = true;
+	cout<<"\nvalue of src  and graph[src][0] is  "<<src<<"  "<<graph[src][0];
+	for (int i : graph[src])
+	{
+		if (!visited[i])
+		{
+			cout<<"\nthe node "<<i<<"  is not visited";
+			takecomp(graph,i,vertices,comp);
+		}
+	}
+}
+
+int connected(vector<vector<int>> &graph, int vertices, vector<vector<int>> &connectdones)
+{
+	for (int i = 0; i < vertices; i++)
+	{
+		if (!visited[i])
+		{
+			counting++;
+			cout<<"\n\n\nthe  "<<counting<<"  connection is  :  \n";
+			vector<int> comp;
+			takecomp(graph, i, vertices,comp);
+			connectdones.push_back(comp);
+		}
+	}
+}
+
+int main()
+{
+	int vertices = 7;
+	vector<vector<int>> graph(vertices);
+	int x[] = {0, 3, 4, 5, 6};
+	int y[] = {1, 2, 5, 6, 4};
+	int edges = 5;
+	for (int i = 0; i < edges; i++)
+	{
+		graph[x[i]].push_back(y[i]);
+		graph[y[i]].push_back(x[i]);
+	}
+	cout << "the graphs is  :   \n";
+	for (int i = 0; i < vertices; i++)
+	{
+		for (int j = 0; j < graph[i].size(); j++)
+		{
+			cout << graph[i][j] << "  ";
+		}
+		cout << endl;
+	}
+	for (int i = 0; i < 7; i++)
+	{
+		visited[i] = false;
+	}
+	vector<vector<int>> connectedones;
+	connected(graph, 7, connectedones);
+	cout<<"\nthe connected node are  :   \n";
+	for(int i=0;i<counting;i++)
+	{
+		for(int j=0;j<connectedones[i].size();j++)
+		{
+			cout<<connectedones[i][j]<<"   ";
+		}
+		cout<<endl;
+	}
+	return 0;
+}

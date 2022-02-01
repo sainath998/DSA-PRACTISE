@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    // longest sum conteguoes subarray
+    int arr[] {-1,-2,-3,-4,-5};
+    int n = sizeof(arr)/sizeof(int);
+    int maxsum=INT_MIN,sumtuptonow=0;
+    for(int i=0;i<n;i++)
+    {
+        sumtuptonow = sumtuptonow+arr[i];   
+        if(maxsum < sumtuptonow)
+        {
+            maxsum = sumtuptonow;
+        }
+        if(sumtuptonow <0)
+        {
+            sumtuptonow=0;
+        }
+    }
+    cout<<"the maxium sum contigues subarray has sum of  :  "<<maxsum;
+    return 0;
+}

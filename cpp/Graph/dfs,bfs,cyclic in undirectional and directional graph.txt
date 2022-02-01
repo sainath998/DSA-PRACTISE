@@ -1,0 +1,180 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void dfsUtil(int n,vector<vector<int>> &adj,bool visited[],int v)
+{
+    visited[v] = true;
+    cout<<v<<"  ";
+    for(int i =0;i<adj[v].size();i++)
+    {
+        if(visited[adj[v][i]] == false)
+        {
+            dfsUtil(n,adj,visited,adj[v][i]);
+        }
+    }
+}
+
+void dfs(int n,vector<vector<int>> &adj)
+{
+    bool visited[n];
+    for(int i =0;i<n;i++)
+    {
+        visited[i] = false;
+    }
+    dfsUtil(n,adj,visited,0); 
+}
+
+void bfs(int n,vector<vector<int>> &adj)
+{
+    bool visited[n];
+    queue<int> q;
+    q.push(0);
+    visited[0] = true;
+    while (q.empty() == false)
+    {
+        int curr = q.front();
+        q.pop();
+        cout<<curr<<"  ";
+        for(int i = 0;i<adj[curr].size();i++)
+        {
+            if(visited[adj[curr][i]] == false)
+            {
+                visited[adj[curr][i]] = true;
+                q.push(adj[curr][i]);
+            }
+        }
+    }
+}
+
+
+
+
+
+// unidirectional cyclic ( note : visited was passed by reference)
+
+// 0 -> not visited so ,visit
+// 1 -> it was visited at 0 now at 1 => visited 2 times => return true
+// 2 -> the node was processed and know that  there was no cycle so return false without working (save time)
+
+bool iscyclicUtil(int n,vector<vector<int>> &adj,vector<int> &visited,int v)
+{
+    if(visited[v] == 1)
+    {
+        return true;
+    }
+    if(visited[v] == 2)
+    {
+        return false;
+    }
+    visited[v] = 1;
+    for(int i = 0;i<adj[v].size();i++)
+    {
+        if(iscyclicUtil(n,adj,visited,adj[v][i]))
+        {
+            return true;
+        }
+    }
+    visited[v] = 2;
+    return false;
+}
+
+bool iscyclic(int n,vector<vector<int>> &adj)
+{
+    vector<int> visited(n,0);
+    for(int i =0;i<n;i++)
+    {
+        if(iscyclicUtil(n,adj,visited,i))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+// bidirectional cyclic   (note visited was passed by value)
+
+// 0-> the node was not visited so visit it 
+// 1 -> the node was visited at 0 and now also but it may be the adj vertex so go through it , it may give the cycle
+// the node was visited at 0,1 and now at 2 also node visited 3 ties (itself,adj, some other wasy)-> cycle => return true
+
+bool iscyclic_biUtil_bidirectional(int n,vector<vector<int>> adj,vector<int> visited,int v)
+{
+    if(visited[v] == 2)
+    {
+        return true;
+    }
+    visited[v] = 1;
+    for(int i = 0;i<adj[v].size();i++)
+    {
+        if(visited[i] == 1)
+        {
+            visited[i] = 2;
+        }
+        else
+        {
+            if(iscyclic_biUtil_bidirectional(n,adj,visited,adj[v][i]))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool iscyclic_bi(int n,vector<vector<int>> &adj)
+{
+    vector<int> visited(n,0);
+    
+    for(int i = 0;i<n;i++)
+    {
+        visited[i] = 1;
+        for(int  j =0;j<adj[i].size();j++)
+        {
+            if(iscyclic_biUtil_bidirectional(n,adj,visited,adj[i][j]))
+            {
+                return true;
+            }
+        }
+        visited[i]= 0;
+    }
+    return false;
+}
+
+int main()
+{
+    int n = 5;
+    vector<vector<int>> v(5);
+    v[0].push_back(1);
+    v[0].push_back(2);
+    v[0].push_back(3);
+    v[1].push_back(0);
+    v[1].push_back(4);
+    v[2].push_back(0);
+    v[2].push_back(4);
+    v[3].push_back(0);
+    v[4].push_back(1);
+    v[4].push_back(2);
+    cout<<"\nbfs is :  ";
+    //dfs (uses queue)
+    dfs(n,v);
+    cout<<endl;
+    cout<<"\nbfs is  : ";
+    // bfs(uses stack(recursion here))
+    bfs(n,v);
+    // bidrectinal cyclic
+    bool flag = iscyclic_bi(n,v);
+    if(flag )
+    {
+        cout<<"\nthe undirectional graph cyclic";
+    }
+    else
+    {
+        cout<<"\nthe undirectional graph is   not cyclic";
+    }
+
+    // unidirectional cyclic
+    flag = iscyclic(n,v);
+    return 0;
+    
+}

@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool comp(pair<int, int> p1, pair<int, int> p2)
+{
+    if (p1.first == p2.first)
+    {
+        return p1.second < p2.second;
+    }
+    return p1.first < p2.first;
+}
+
+int getMinDiff(vector<pair<int, int>> v, int n, int vsize)
+{
+    int visited[n];
+    for (int i = 0; i < n; i++)
+    {
+        visited[i] = 0;
+    }
+    int slw = 0; // sliding window length
+    int elements = 0;
+    int ind = 0;
+    int minhight = INT_MAX;
+    sort(v.begin(), v.end(), comp);
+    while (ind < vsize)
+    {
+        if (elements == n)
+        {
+            cout<<"\nthe value of ind and slw are  :  "<<ind<<"  "<<slw;
+            cout<<"\nthe required value is :  "<<v[ind].first - v[ind+1 - slw].first;
+            if (minhight > v[ind].first - v[ind - slw - 1].first)
+            {
+                minhight = v[ind].first - v[ind - slw - 1].first;
+            }
+            visited[v[ind - slw +1].second]--;
+            if (visited[v[ind - slw + 1].second] == 0)
+            {
+               cout<<"\nelement are decreased to  :  "<<elements-1;
+                elements--;slw--;
+            }
+            cout<<"\nend";
+        }
+        else
+        {
+            visited[v[ind].second]++;
+            if (visited[v[ind].second] == 1)
+            {
+                cout << "\nelements are increase to  :   " << elements + 1<<" at index  :  "<<ind;
+                elements++;
+            }
+            ind++;
+            cout<<"\nslw is :  "<<slw+1<<" and elements are :  "<<elements;
+            slw++;
+            if(elements == n)
+            {
+                ind--;
+            }
+        }
+    }
+    return minhight;
+}
+
+int main()
+{
+    // minimise the max difference between the hights
+    int hights[] = {4, 2, 3, 6};
+    int n = sizeof(hights) / sizeof(int);
+    int k = 3;
+    vector<pair<int, int>> v;
+    int count = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (hights[i] - k >= 0)
+        {
+            v.push_back(make_pair(hights[i] - k, i));
+            count++;
+        }
+        v.push_back(make_pair(hights[i] + k, i));
+        count++;
+    }
+    int minHight = getMinDiff(v, n, count);
+    cout << "the minimum highr is  :  " << minHight;
+    return 0;
+}

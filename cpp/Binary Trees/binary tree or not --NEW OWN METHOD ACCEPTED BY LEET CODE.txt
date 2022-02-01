@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct TreeNode
+{
+    int val;
+    TreeNode *left, *right;
+};
+
+
+TreeNode *newnode(int val)
+{
+    TreeNode *temp;
+    temp = new TreeNode;
+    temp->val = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+struct Dpair
+{
+    int hight;
+    bool flag;
+};
+
+Dpair *findm(TreeNode *root)
+{
+    if(root == NULL)
+    {
+        Dpair *temp = new Dpair;
+        temp->hight = -1;
+        temp->flag = true;
+        return temp;
+    }
+    Dpair *leftpair  = findm(root->left);
+    Dpair *rightpair = findm(root->right);
+    Dpair *mp = new Dpair;  // mypair
+    mp->hight = max(leftpair->hight,rightpair->hight)+1;
+    if(leftpair->hight-rightpair->hight >1 || rightpair->hight- leftpair->hight >1)
+    {
+        mp->flag = false;
+    }
+    else
+    {
+        mp->flag = leftpair->flag && rightpair->flag;
+    }
+    return mp;
+}
+
+
+int main()
+{
+    TreeNode *root;
+    root = newnode(1);
+    root->left = newnode(2);
+    root->right= newnode(3);
+    root->left->left = newnode(4);
+    root->left->right = newnode(5);
+    root->right->left = newnode(6);
+    
+    // diameter of  a binary TreeNode
+    Dpair *p = findm(root);   //p contains both diameter and the hight 
+    if(p->flag)
+    {
+        cout<<"balanced";
+        return 0;
+    }
+    cout<<"not balanced";
+    return 0;
+}

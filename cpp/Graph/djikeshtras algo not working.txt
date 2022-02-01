@@ -1,0 +1,78 @@
+// dijkeshtras not
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class cls
+{
+public:
+    int src, wsf;
+    string psf;
+    cls(int src, string psf, int wsf)
+    {
+        this->psf = psf;
+        this->src = src;
+        this->wsf = wsf;
+    }
+};
+
+class cmp
+{
+    bool operator()(cls a, cls b)
+    {
+        return b.wsf - a.wsf;
+    }
+};
+
+string dijkeshtras(int src,int dst,vector<vector<pair<int,int>>> &adj,string s)
+{
+    vector<bool> visited(7,false);
+    visited[src] = true;
+    priority_queue<cls,vector<cls,cmp> >q;
+    string s = "";
+    cls temp(src,to_string(src)+"-",0);
+    while (q.empty() == false)
+    {
+        temp = q.top();
+        q.pop();
+        if(temp.src == dst)
+        {
+            break;
+        }
+        int i = 0;
+        for(auto p : adj[src])
+        {
+            if(visited[p.first] == false)
+            {
+                s = s+ to_string(adj[src][i].first)+"-";
+                q.push(cls(adj[src][i].first,temp.psf+to_string(adj[src][i].first)+"-",temp.wsf+adj[src][i].second));
+            }
+            i++;
+        }
+    }
+    
+    cout<<s;
+    return "";
+}
+
+int main()
+{
+    int n = 5;
+    vector < vector<pair<int, int>>> v(7);
+    v[0].push_back(make_pair(1, 10));
+    v[0].push_back(make_pair(3, 40));
+    v[1].push_back(make_pair(0, 10));
+    v[1].push_back(make_pair(2, 10));
+    v[2].push_back(make_pair(1, 10));
+    v[2].push_back(make_pair(3, 10));
+    v[3].push_back(make_pair(0, 40));
+    v[3].push_back(make_pair(4, 2));
+    v[4].push_back(make_pair(3, 2));
+    v[4].push_back(make_pair(5, 3));
+    v[4].push_back(make_pair(6, 8));
+    v[5].push_back(make_pair(4, 3));
+    v[5].push_back(make_pair(6, 3));
+    v[6].push_back(make_pair(4, 8));
+    v[6].push_back(make_pair(5, 3));
+    dijkeshtras(0, 4, v, "");
+}

@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void strrev(int arr[],int l,int r)
+{
+    while (l < r)
+    {
+        swap(arr[l],arr[r]);
+        l++;r--;
+    }
+    return ;
+    
+}
+
+int main()
+{
+    // reversing an array
+    int arr[] = {1,2,3,4,5,6};  //3 1 2 6 5 4      4 5 6     
+    int n = sizeof(arr)/sizeof(int);
+    int k;
+    k = 3;
+    strrev(arr,0,k-1);  // starting and ending indixes
+    strrev(arr,k,n-1);
+    strrev(arr,0,n-1);
+    for(int i=0;i<n;i++)
+    cout<<arr[i];
+}
+
+
+/*
+int arr[] = {1,2,3,4,5,6};  //3 2 1 6 5 4      4 5 6     
+    int n = sizeof(arr)/sizeof(int);
+    int k;
+    k = 3;
+    k = k%n;
+    int i=0;
+    while (i<n)
+    {
+        k = k%n;
+        cout<<arr[k]<<"  ";k++;i++;
+    }
+    */

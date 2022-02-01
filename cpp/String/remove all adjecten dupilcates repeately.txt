@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+string  removedup(string s,int ind)
+{
+// not woring for large test case don't know where is the fault
+    if(s.length() == 1)
+    {
+        return s;
+    }
+    if(s == "")
+    {
+        return s;
+    }
+    int k = s.length();
+    if(ind <s.length() && s[ind] == s[ind+1])
+    {
+        s= s.substr(0,ind)+s.substr(ind+2);
+        if(ind >0)
+        {
+            if(s[ind] == s[ind-1])
+            {
+                ind = ind-1;
+                s = s.substr(0,ind)+s.substr(ind+2);
+            }
+        }
+        cout<<"\ngot string as : "<<s;
+        return removedup(s,ind);
+    }
+    
+    else if(ind < k)
+    {
+        cout<<"\ngot string as : "<<s;
+        return removedup(s,ind+1);
+    }
+    return s;
+
+}
+
+int main()
+{
+    // recursivly remove all adjecent dupilcates
+    string s = "cmclrhhapqdfkfjllkedgirfpeegjitijeghhqtpaprhnpljcidotmhdrf";
+    string ans="";
+    ans = removedup(s,0);
+    cout<<"\n\nthe answer is  :     "<<ans;
+    return 0;
+}

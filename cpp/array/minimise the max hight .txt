@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int arr[] = {8 ,1, 5, 4, 7, 5, 7 ,9 ,4, 6};
+    int n = sizeof(arr) / sizeof(int);
+
+    int k = 5;
+    vector<pair<int, int>> bul;
+    
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] > k)
+        {
+            bul.push_back(make_pair(arr[i] - k, i));
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        bul.push_back(make_pair(arr[i] + k, i));
+    }
+    int one=0,two=0;
+    sort(bul.begin(), bul.end());
+
+    vector<int> visited(n, 0);
+
+    int count = 0;
+    int ans = INT_MAX;
+    int left = 0;
+    for (int i = 0; i < bul.size(); i++)
+    {
+        if (visited[bul[i].second] == 0)
+        {
+            count++;
+        }
+        visited[bul[i].second]++;
+        if (count == n)
+        {
+            while (count == n)
+            {
+                cout<<"\ncomparing :  "<<bul[i].first<<" "<<bul[left].first;
+                if(ans > bul[i].first-bul[left].first)
+                {
+                    ans = bul[i].first-bul[left].first;
+                    one = bul[i].first;
+                    two = bul[left].first;
+                }
+                if (visited[bul[left].second] == 1)
+                {
+                    count--;
+                }
+                visited[bul[left].second]--;
+                left++;
+            }
+        }
+    }
+    cout<<"\ngot ans for  : "<<one<<" "<<two;
+    return ans;
+}

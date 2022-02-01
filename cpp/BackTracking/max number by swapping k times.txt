@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int Max = INT_MIN;
+
+int findMax(string s, int ind, int swaps)
+{
+
+    if (ind == s.length())
+    {
+        return 0;
+    }
+
+    if (swaps == -1)
+    {
+        int k = stoi(s);
+        if (k > Max)
+        {
+            Max = k;
+        }
+    }
+    int a = 0, b = 0;
+
+    for (int i = ind; i < s.length(); i++)
+    {
+        for (int j = i + 1; j < s.length(); j++)
+        {
+            string temp = s;
+            char c = temp[i];
+            temp[i] = temp[j];
+            temp[j] = c;
+
+            a = findMax(temp, ind + 1, swaps - 1);
+        }
+    }
+
+    b = findMax(s, ind + 1, swaps);
+    return max(a, b);
+}
+
+int main()
+{
+
+    string s = "3435335";
+    int n = s.length();
+    findMax(s,0,3);
+    cout<<Max;
+}

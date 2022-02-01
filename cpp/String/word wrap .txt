@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int cun = 0;
+
+int findcun(string s, string arr[], int n, string ans)
+{
+    if (s.empty())
+    {
+        cout << ans << "\n";
+        cun++;
+        return 0;
+    }
+    int k = s.length();
+    for (int i = 0; i < k; i++)
+    {
+        string asf = s.substr(0,i+1);
+        for (int l = 0; l < n; l++)
+        {
+            if(asf == arr[l])
+            {
+                cout<<"\narray of string contains : "<<arr[l]<<" at index : "<<l<<endl;
+                findcun(s.substr(i + 1), arr, n, ans+" "+asf);
+            }
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    string s = "microsofthiring";
+    string arr[] = {"micro", "soft", "microsoft", "hi", "ring", "hiring"};
+    findcun(s, arr, 6, ""),
+        cout << "the cun is  :  " << cun;
+    return 0;
+}

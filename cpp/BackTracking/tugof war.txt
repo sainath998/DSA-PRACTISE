@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int diff = INT_MAX;
+
+string ans = "";
+void tow(int arr[], int i, int n, int l, int r, int s1, int s2,string left)
+{
+    if (i == n)
+    {
+        if (n % 2 == 0)
+        {
+            if (l == r)
+            {
+                // diff = min(diff, abs(s1 - s2));
+                if(diff > abs(s1-s2))
+                {
+                    diff  = abs(s1-s2);
+                    cout<<"\ndiff is  : "<<diff<<"  for  l and r as  :  "<<l<<"  "<<r;
+                    ans = left;
+                }
+            }
+        }
+        else
+        {
+            if (abs(l - r) == 1)
+            {
+                // diff = min(diff, abs(s1 - s2));
+                // cout<<"\ndiff is :  "<<diff;
+                if(diff > abs(s1-s2))
+                {
+                    diff  = abs(s1-s2);
+                    ans = left;
+                    cout<<"\ndiff is  : "<<diff<<"  for  l and r as  :  "<<l<<"  "<<r;
+                }
+            }
+        }
+        return;
+    }
+    if (i > n)
+    {
+        return ;
+    }
+    tow(arr, i + 1, n, l + 1, r, s1 + arr[i], s2,left+to_string(arr[i])+"-");
+    tow(arr, i + 1, n, l, r + 1, s1, s2 + arr[i],left);
+}
+
+int main()
+{
+    int arr[] = {45 ,-34, 12, 98, -1,23, 0, -99, 4, 189, 4};
+    int n = sizeof(arr) / sizeof(int);
+
+    tow(arr,0, n,0, 0, 0, 0,"");
+    cout << "\nthe min diff is :  " << diff;
+    cout<<"\nvalues of oneside are  :  "<<ans;
+    return 0;
+}

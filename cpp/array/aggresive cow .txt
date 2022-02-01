@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int arr[] = {1,2,8,4,9};
+    int n  = sizeof(arr)/sizeof(int);
+    int dcount = 3;
+    int low = 0,high= n-1;
+    int gap  = 0;
+    sort(arr,arr+n);
+    while (low <= high)
+    {
+        int count =1;
+        int mid = (low +high+1)/2;
+
+        int left =0;
+        for(int i=1;  i<n  && count < dcount;++i)
+        {
+            if(arr[i]-arr[left] >= mid)
+            {
+                count++;left = i;
+            }
+        }
+
+        if(count >= dcount)
+        {
+            gap = mid;
+            low = mid+1;
+        }
+        else
+        {
+            high = mid-1;
+        }
+    }
+    
+    cout<<"\nthe minimum gap  is  :  "<<gap;
+    return 0;
+}

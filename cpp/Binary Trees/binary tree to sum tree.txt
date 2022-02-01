@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int val;
+    node *left, *right;
+};
+
+
+node *newnode(int val)
+{
+    node *temp;
+    temp = new node;
+    temp->val = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+void print(node *root)
+{
+    if(!root)
+    {
+        return ;
+    }
+    cout<<root->val<<"  ";
+    print(root->left);
+    print(root->right);
+}
+
+int sumtree(node *root,node **rootref)
+{
+    if(root == NULL)
+    {
+        return 0;
+    }
+    node *real = *rootref;
+    int s1 = sumtree(root->left,&real);
+    int s2 = sumtree(root->right,&real);
+    int sum = s1+s2;
+    int val = root->val;
+    root->val =sum;
+    *rootref = root;
+    return sum+val;
+}
+
+int main()
+{
+    node *root;
+    root = newnode(10);
+    root->left = newnode(-2);
+    root->right= newnode(6);
+    root->left->left = newnode(8);
+    root->left->right = newnode(-4);
+    root->right->left = newnode(7);
+    root->right->right = newnode(5);
+    sumtree(root,&root);
+    print(root);
+}

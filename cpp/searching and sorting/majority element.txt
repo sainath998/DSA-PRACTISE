@@ -1,0 +1,74 @@
+int majorityElement(vector<int>& arr) {
+        
+        int n = arr.size();
+        int maj=arr[0];
+        int count =1;
+        for(int i=1;i<n;i++)
+        {
+            if(arr[i] == maj)
+            {
+                count++;
+            }
+            else
+            {
+                count--;
+                if(count==0)
+                {
+                    maj = arr[i];
+                    count=1;
+                }
+            }
+        }
+        return maj;
+    }
+};
+
+
+
+/*
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int arr[] = {-1,100,2,100,100,4,100};
+    int n = sizeof(arr)/sizeof(int);
+    // majority element
+    int bit=0;
+    int ans=0;
+    int count =1;
+    int k=4;
+    int hight =0;
+    int newcount=1;
+    while (k>0)
+    {
+        int c1=0,c2=0;
+        for(int i=0;i<n;i++)
+        {
+            count = newcount;
+            count = count & arr[i];
+            if(count ==newcount)
+            {
+                c1++;
+            }
+            else
+            {
+                c2++;
+            }
+        }
+        if(c1>c2)
+        {
+            ans = ans+pow(2,hight);
+        }
+        else
+        {   
+            ans  = ans;
+        }
+        k--;
+        hight++;
+        newcount = newcount*2;
+    }
+    cout<<ans;
+    return ans;
+}
+*/

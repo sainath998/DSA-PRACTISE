@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int arr[] = {3, 5, 8, 9, 2, 6, 7, 6, 8, 9};
+    int n = sizeof(arr) / sizeof(int);
+    int jumps = 1;
+    int steps = arr[0];
+    int maxreach = arr[0];
+    if (arr[0] == 0)
+    {
+        cout << "not reached ";
+        return -1;
+    }
+    if (n == 1)
+    {
+        cout << "not reached ";
+        return 1;
+    }
+    for (int i = 1; i < n; i++)
+    {
+        if (i == n - 1)
+        {
+            cout << "taken  :  " << jumps << " jumps";
+            return 0;
+        }
+        // the state we can reach at max
+        maxreach = max(maxreach, arr[i] + i);
+        // after moving each step nbr of steps we have are going to be decreased
+        steps--;
+        if (steps == 0)
+        {
+            // check weather  the maxreach is less than i
+            // also the place where we have to go to cover the max indexies
+            jumps++;
+            if (i >= maxreach)
+            {
+                // if the maxreaching point is less than the current position then we cannot go foreword
+                cout << "not reached ";
+                return -1;
+            }
+            // if steps become 0 then we have to make a jump such than 
+            // we can cover max indexes after jumpng from the current position
+            steps = maxreach - i;
+        }
+    }
+
+    cout << "not reached ";
+    return 0;
+}

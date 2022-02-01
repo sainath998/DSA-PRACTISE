@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool contain(string s, string dic[], int n, int k)
+{
+    for (int i = 0; i < k; i++)
+    {
+        if (s.compare(dic[i]) == 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+int main()
+{
+    string dict[] = {"i", "like", "sam", "sung", "samsung", "mobile", "ice", "cream", "icecream", "man", "go", "mango"};
+    string s = "iike";
+    int k = sizeof(dict) / sizeof(string);
+    int n = s.length();
+    int dp[n];
+    for (int i = 0; i < n; i++)
+    {
+        dp[i] = 0;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            string tocheck = s.substr(j, i + 1);
+            if (contain(tocheck, dict, n, k) == true)
+            {
+                cout<<"\ngot true";
+                if (j > 0)
+                {
+                    dp[i] = dp[i] + dp[j - 1]; // if matched then we have to add dp of prev
+                }
+                else
+                {
+                    dp[i] = 1;
+                }
+            }
+        }
+    }
+    cout << dp[n - 1];
+    return 0;
+}}

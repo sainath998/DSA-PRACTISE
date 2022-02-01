@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void maxheap(int arr[], int val, int n)
+{
+    arr[n] = val;
+    int i = (n - 1) / 2;
+
+    while (i >= 0)
+    {
+        if (arr[n] > arr[i])
+        {
+            swap(arr[i], arr[n]);
+            n = i;
+            i = (n - 1) / 2;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return;
+}
+
+int del(int arr[], int n)
+{
+    int ans = arr[0];
+    arr[0] = arr[n - 1];
+    n--;
+
+    int i = 0;
+    int lchild = 2 * i + 1, rchild = 2 * i + 2;
+
+    while (lchild < n && rchild < n)
+    {
+        if (arr[lchild] > arr[i] || arr[rchild] > arr[i])
+        {
+            if (arr[lchild] > arr[rchild])
+            {
+                swap(arr[lchild], arr[i]);
+                i = lchild;
+                lchild = 2 * i + 1, rchild = 2 * i + 2;
+            }
+            else
+            {
+                swap(arr[rchild], arr[i]);
+                lchild = 2 * i + 1, rchild = 2 * i + 2;
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    return ans;
+}
+
+int main()
+{
+    int arr[] = {5,4,3,2,2,3,2,7,8,6,8,9};
+    int n = sizeof(arr) / sizeof(int);
+
+    for (int i = 0;i < n; i++)
+    {
+        maxheap(arr, arr[i], i);
+    }
+
+    int brr[n];
+    int k = n;
+
+    for (int i = 0; i < n; i++)
+    {
+        brr[i] = del(arr, k);
+        k--;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << brr[i] << "  ";
+    }
+    return 0;
+}

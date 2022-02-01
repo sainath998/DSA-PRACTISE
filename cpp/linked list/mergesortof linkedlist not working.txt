@@ -1,0 +1,31 @@
+create database practise;
+
+drop practise;
+
+
+
+create table mobiles(name varchar(100),price(100));
+
+drop table mobiles;
+
+desc mobiles;
+
+insert into mobiles values('oneplus','2000');
+
+show tables; (it will show mobiles table plus some extra)
+
+select * from mobiles;
+
+alter table mobiles add column ram int(100);
+
+
+alter table mobiles add primary key(name);
+
+update mobiles set ram='4' where name= 'oneplus';
+
+select * from mobiles where name = 'oneplus'; // for selecting row
+
+select price from mobiles;  // for selecting column
+
+alter table mobiles drop column price;
+

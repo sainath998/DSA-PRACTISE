@@ -1,0 +1,36 @@
+bool iscyclicUtil(vector<vector<int>> &adj, vector<int> visited, int v)
+{
+    if (visited[v] == 2)
+    {
+        return true;
+    }
+    visited[i] = 1;
+    bool flag = false;
+    for (int i = 0; i < adj[v].size(); i++)
+    {
+        if (visited[adj[v][i]] == 1)
+        {
+            visited[adj[v][i]] = 2;
+        }
+        else
+        {
+            flag = iscyclicUtil(adj, visited, adj[v][i]);
+            if (flag)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int iscyclic(vector<vector<int>> &adj, int n)
+{
+    vector<int> visited(n, 0);
+    for (int i = 0; i < n; i++)
+    {
+        visited[i] = 1;
+        iscyclicUtil(adj, visited, i);
+        visited[i] = 0;
+    }
+}

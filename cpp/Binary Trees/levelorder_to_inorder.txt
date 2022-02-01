@@ -1,0 +1,50 @@
+void level_order_to_inorder(int a[], std::vector<int> &v, 
+                        int n, int index)
+{
+    if(index >= n)
+        return;
+    level_order_to_inorder(a, v, n, 2 * index + 1);
+     
+    v.push_back(a[index]);
+
+    level_order_to_inorder(a, v, n, 2 * index + 2);
+}
+
+
+
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int in= 0;
+
+void level_prder_to_preorder(int a[],int arr[],int n,int ind)  // instead of int arr[] and in we can use vector
+{
+    if(ind >= n)
+    {
+        return ;
+    }
+    level_prder_to_preorder(a,arr,n,2*ind+1);
+
+    arr[in] = a[ind];in++;
+    
+    level_prder_to_preorder(a,arr,n,2*ind+2);
+}
+
+
+int main()
+{
+    int a[] = {5,6,7,8,9,10,11};
+    int n = sizeof(a)/sizeof(int);
+    int arr[n];
+    cout<<"\nthe preorder is : ";
+    level_prder_to_preorder(a,arr,n,0);
+    for(int i = 0;i<n;i++)
+    {
+        cout<<arr[i]<<"  ";
+    }
+    return 0;
+}

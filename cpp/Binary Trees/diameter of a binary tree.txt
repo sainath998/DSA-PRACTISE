@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct tree
+{
+    int data;
+    tree *left, *right;
+};
+
+int hight(tree *root)
+{
+    if(root == NULL)
+    {
+        return -1;
+    }
+    int lh = hight(root->left);
+    int rh = hight(root->right);
+    int h = max(lh,rh)+1;
+    return h;
+}
+
+int findm(tree *root)
+{
+    if(root== NULL)
+    {
+        return 0;
+    }
+    int lf = findm(root->left);
+    int rf = findm(root->right);
+    int f = hight(root->left)+hight(root->right)+2;
+    return max(f,max(lf,rf));
+}
+
+tree *newnode(int data)
+{
+    tree *temp;
+    temp = new tree;
+    temp->data = data;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+int main()
+{
+    tree *root;
+    root = newnode(1);
+    root->left = newnode(2);
+    root->right= newnode(3);
+    root->left->left = newnode(4);
+    root->left->right = newnode(5);
+    root->right->left = newnode(6);
+    root->right->left->left = newnode(8);
+    root->right->left->left->right = newnode(8);
+    root->right->left->left->right->left= newnode(9);
+
+    root->right->right = newnode(7);
+    root->right->right->left = newnode(10);
+    root->right->right->left->left = newnode(11);
+    root->right->right->left->left->left = newnode(12);
+    // diameter of  a binary tree
+    int diameter = findm(root);
+    cout<<"the diameter is  :  "<<diameter;
+    return 0;
+}

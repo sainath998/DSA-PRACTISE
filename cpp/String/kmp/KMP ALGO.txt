@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void findlps(string s, int n, int lps[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        lps[i] = 0;
+    }
+
+    int i = 1;
+    int length = 0;
+    while (i < n)
+    {
+        if(s[i] == s[length])
+        {
+            length++ ;
+            lps[i] = length;
+            i++;
+        }
+        else
+        {
+            if (length != 0)
+            {
+                length = lps[length - 1];
+            }
+            else
+            {
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
+
+}
+
+int main()
+{
+    // kmp algorithm
+    string s1, s2;
+    s1 = "onionionspl";
+    s2 = "onions";
+    int l = s1.length();
+    int m = s2.length();
+    int lps[m];
+    findlps(s2, m, lps);
+
+    int i = 0, j = 0;
+    int len = 0;
+    while (i < l)
+    {
+        if (s1[i] == s2[j])
+        {
+            i++;
+            j++;
+         }
+        else
+        {
+            if (j != 0)
+            {
+                j = lps[j - 1];
+            }
+            else
+            {
+                i++;
+            }
+        }
+        if (j == m)
+        {
+            cout << "yes";
+            return 0;
+        }
+    }
+    cout << "no";
+    return 0;
+}

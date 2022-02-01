@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int find(string str, string dict[], int ind, int n, int &ways,int k)
+{
+    cout << "\nlen of string is  : " << str.length();
+    int p = str.length();
+    if (p == 0)
+    {
+        cout << "\nreached end";
+        ways++;
+        return 0;
+    }
+
+    for (int i = 0; i < str.length(); i++)
+    {
+        string left = str.substr(0, i + 1);
+        for (int j = 0; j < k; j++)
+        {
+            if (left.length() >= dict[j].length())
+            {
+                if (left == dict[j])
+                {
+                    cout << "\n"<< left << "   mathced ";
+
+                    find(str.substr(i + 1), dict, 0, n, ways,k);
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    string str = "snakesandladder";
+    string dict[] = {"snake", "snakes", "and","snak","esand","sand","sna","kes","ke", "ladder"};
+    int k  = sizeof(dict)/sizeof(string);
+    cout<<"size if dicct si  :  "<<k;
+    int ways = 0;
+    int n = str.length();
+    find(str, dict, 0, n, ways,k);
+    cout << "\nno of ways are  :  " << ways;
+    return 0;
+}

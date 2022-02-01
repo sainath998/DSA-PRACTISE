@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// detect cycle in undirectional graoh only
+
+vector<int> arr;
+
+int findp(int v)
+{
+	if(arr[v]==-1)
+		return v;
+	return findp(arr[v]);
+}
+
+void union_op(int fromP,int toP)
+{
+	fromP = findp(fromP);
+	toP = findp(toP);
+	arr[fromP] = toP;
+}
+
+int main()
+{
+    int n = 4;
+    arr.resize(n,-1);
+    vector<vector<int>> adj(n);
+    adj[0].push_back(1);
+    adj[0].push_back(3);
+    adj[2].push_back(3);
+    adj[1].push_back(2);
+    
+    for(int i=0;i<n;i++)        
+    {
+        int from = i;
+        int fromp = findp(i);
+        for(int j = 0;j<adj[i].size();j++)
+        {
+            int to = adj[i][j];
+            int top = findp(to);
+            if(fromp == top)
+            {
+                cout<<"\ncyclc";
+                return true;
+            }
+            union_op(fromp,top);
+        }
+    }
+    cout<<"\nnot cyclic";
+    return false;
+    
+}

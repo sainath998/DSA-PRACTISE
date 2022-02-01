@@ -1,0 +1,78 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string s1="a";
+    string s2 = "a";
+    int left,right;
+    map<char,int> m;
+    int reqcount=0,count=0;
+    int n= s2.length();
+    for(int i=0;i<n;i++)
+    {
+        if(m.count(s2[i]) == 0)
+        {
+            m.insert({s2[i],1});
+            reqcount++;
+        }
+        else
+        {
+            m[s2[i]]++;
+            reqcount++;
+        }
+    }
+    int ans=INT_MAX;
+    map<char,int> k;
+    n = s1.length();
+    int i=-1,j=-1;
+    while (true)
+    {
+        bool f1  = false,f2 = false;
+        while (j<n && count < reqcount)
+        {   
+            f1= true;
+            j++;
+            if(k.count(s1[j])==0)
+            {
+                k.insert({s1[j],1});
+            }
+            else
+            {
+                k[s1[j]]++;
+            }
+            if(k[s1[j]] <= m[s1[j]])
+            {
+                count++;
+            }
+        }
+
+        while (i <j && count == reqcount)
+        {
+            f2 = true;
+            i++;
+            if(ans > j-i+1)
+            {
+                left = i,right=j;
+                ans= j-i+1;
+            }
+            if(k[s1[i]]>=1)
+            {
+                k[s1[i]]--;
+            }
+            if(k[s1[i]] < m[s1[i]])
+            {
+                count--;
+            }
+        }
+        if(f1 == false && f2 == false)
+        {
+            break;
+        }
+    }
+    for(i=left;i<=right;i++)
+    {
+        cout<<s1[i];
+    }
+    return 0;
+}

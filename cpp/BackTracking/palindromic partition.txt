@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+bool ispalind(string s)
+{
+    int l=0,r=s.length()-1;
+    while (l <r)
+    {
+        if(s[l] != s[r])
+        {
+            return false;
+        }
+        l++;r--;
+    }
+    return true;
+}
+
+
+
+int solve(string s,string asf)
+{
+    if(s.length() == 0)
+    {
+        cout<<asf<<endl;
+        return 0;
+    }
+    int n = s.length();
+    for(int i=0;i<s.length();i++)
+    {
+        string left = s.substr(0,i+1);
+        string right = s.substr(i+1,n);
+        if(ispalind(left))
+        {
+            solve(right,left+" - "+asf);
+        }
+    }
+}
+
+int main()
+{
+    string s ="nitin";
+    int n = s.length();
+    solve(s,"");
+}

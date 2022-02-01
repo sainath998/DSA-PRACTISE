@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void printper(string s,int ind,int n,string asf,map<char,int> m)
+{
+    // cout<<"\nstring is :  "<<asf<<"  ";
+    if(ind == n)
+    {
+        cout<<asf<<"  ";
+        return ;
+    }
+    
+    // itrareate for items
+    for(int i =0;i<26;i++)
+    {
+        char c = 'a'+i;
+        if(m[c] >0)
+        {
+            m[c]--;
+            string temp =asf;
+            temp.push_back(c);
+            printper(s,ind+1,n,temp,m);
+            m[c]++;
+        }
+    }
+}
+
+
+int main()
+{
+    string s = "abc";
+    int n = s.length();
+    // boxes on level 
+    vector<bool> vis(n,false);
+    map<char,int> m;
+    for(int i =0;i<26;i++)
+    {
+        char c = 'a'+i;
+        m.insert(make_pair(c,0));
+    }
+    for(int i =0;i<s.length();i++)
+    {
+        m[s[i]]++;
+    }
+    printper(s,0,n,"",m);
+    
+}
+
+/* boxes on level 
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void printper(string s, int ind, vector<char> boxes,vector<bool> vis)
+{
+    
+
+    if (ind == s.length())
+    {
+        for (int i = 0; i < s.length(); i++)
+        {
+            cout << boxes[i] << "";
+        }
+        cout << "  ";
+        return;
+    }
+    if (boxes[ind] != '\n')
+    {
+        return ;
+    }
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (boxes[ind] == '\n' && vis[i] == false)
+        {
+            boxes[ind] = s[i];
+            vis[i]  = true;
+            printper(s, ind + 1, boxes,vis);
+            boxes[ind] = '\n';
+            vis[i] = false;
+        }
+    }
+}
+
+int main()
+{
+    string s = "abc";
+    int n = s.length();
+
+    vector<bool> vis(n,false);
+    vector<char> boxes(n, '\n');
+
+    printper(s, 0, boxes,vis);
+}*/
+

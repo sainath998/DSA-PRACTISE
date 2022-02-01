@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class graph
+{
+public:
+    int v;
+    list<int> *l;
+
+    graph(int v)   // v is vertex count
+    {
+        this->v = v;
+        this->l = new list<int>[v];
+    }
+
+    void addEdge(int a, int b)
+    {
+        l[a].push_back(b);
+        l[b].push_back(a);
+    }
+
+    void print();
+
+    void dfs(int v);
+    void dfsUtil(int v, bool visited[]);
+};
+
+void graph ::dfsUtil(int v, bool visited[])  // v is present vertex
+{
+    visited[v] = true;
+    cout << v << " ";
+    list<int>::iterator i;
+    for (i = l[v].begin(); i != l[v].end(); i++)
+    {
+        if(visited[*i] == false)
+        {
+            visited[*i] = true;
+            dfsUtil(*i, visited);
+        }
+    }
+}
+
+void graph ::dfs(int v)    // v is present vertex not vertex count
+{
+    bool visited[this->v];
+    for(int i=0;i<this->v;i++)
+    {
+        visited[i] = false;
+    }
+    dfsUtil(v, visited);
+}
+
+int main()
+{
+    graph g(4);
+    g.addEdge(0,1);
+    g.addEdge(0,2);
+    g.addEdge(1,2);
+    g.addEdge(2,0);
+    g.addEdge(2,3);
+    g.addEdge(3,3);
+    g.dfs(2);
+}

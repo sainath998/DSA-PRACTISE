@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int con=false;
+ 
+int findqueens(vector<vector<bool>> board,int row,bool cols[],bool ld[],bool rd[],string asf)
+{
+    if(row == board.size())
+    {
+        cout<<asf+"."<<endl;
+        return 0;
+    }
+    for(int col =0;col<board.size();col++)
+    {
+        if(cols[col] == false && ld[row+col] == false && rd[row-col+board.size()-1] == false && board[row][col] == false) 
+        {
+            rd[row-col+board.size()-1] = true;
+            ld[row+col] = true;
+            cols[col] = true;
+            string tmp="";
+            char R = '0'+row;
+            tmp.push_back(R);
+            tmp.push_back('-');
+            R = '0'+col;
+            tmp.push_back(R);
+            findqueens(board,row+1,cols,ld,rd,asf+tmp+"");
+            rd[row-col+board.size()-1] = false;
+            ld[row+col] = false;
+            cols[col] = false;
+        }
+    }
+    return 0;
+}
+ 
+int main()
+{
+    vector<vector<bool>> v  = {{false, false, false, false},
+         {false, false, false, false}, 
+         {false, false, false, false},
+         {false, false, false, false}};
+    int m =v.size(),n =v[0].size();
+    bool cols[n];
+    bool ld[2*n-1] ;
+    bool rd[2*n-1];
+    for(int i=0;i<n;i++)
+    {
+        cols[i] = false;
+    }
+    for(int i=0;i<2*n-1;i++)
+    {
+        ld[i] = false;
+    }
+for(int i=0;i<2*n-1;i++)
+    {
+        rd[i] = false;
+    }
+
+    findqueens(v,0,cols,ld,rd,"");
+    return 0;
+}

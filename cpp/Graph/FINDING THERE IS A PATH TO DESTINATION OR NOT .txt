@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool visited[7];
+
+bool ispath(vector<vector<int>> &graph, int src, int destination)
+{
+	cout<<"\nentereing the vetex "<<src;
+	if (src == destination)
+	{
+		return true;
+	}
+	visited[src] = true;
+	for (int j=0;j<graph[src].size();j++)
+	{
+		if (visited[graph[src][j]] == false)
+		{
+			bool isnbrpath = ispath(graph,graph[src][j], destination);
+			if (isnbrpath == true)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+int main()
+{
+	int vertices = 7;
+	int edges = 8;
+	vector<vector<int>> graph(vertices);
+	int x[edges] = {0,1,2,0,3,4,5,4},
+		y[edges] = {1,2,3,3,4,5,6,6};
+	// creation
+	for (int i = 0; i < edges; i++)
+	{
+		graph[x[i]].push_back(y[i]);
+		graph[y[i]].push_back(x[i]);
+	}
+	cout<<"The graph was :  \n";
+	for(int i =0;i<vertices;i++)
+	{
+		for(int j=0;j<graph[i].size();j++)
+		{
+			cout<<graph[i][j]<<"  ";
+		}
+		cout<<endl;
+	}
+	for (int i = 0; i < 7; i++)
+	{
+		visited[i] = false;
+	}
+	bool ans = ispath(graph, 0, 6);
+	cout << "\nanswer is  :   " << ans;
+	return 0;
+}

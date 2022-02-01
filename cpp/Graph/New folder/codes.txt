@@ -1,0 +1,290 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// prims ->same as djestra cost will not have prev cost and noes visited  == n ( not dst)
+
+struct cls
+{
+public:
+    int src, wsf;
+    string psf;
+    cls(int src, string psf, int wsf)
+    {
+        this->psf = psf;
+        this->src = src;
+        this->wsf = wsf;
+    }
+};
+
+class comparator
+{
+public:
+    bool operator()(cls a, cls b)
+    {
+        if (b.wsf - a.wsf > 0)
+        {
+            return false;
+        }
+        return true;
+    }
+};
+
+string prims(int src,int n, vector<vector<pair<int, int>>> &adj)
+{
+    // default src is 0
+    vector<bool> visited(n, false);
+    priority_queue<cls, vector<cls>, comparator> q;
+    string s = "";
+    cls temp(src, to_string(src) + "-", 0);
+    q.push(temp);
+    int ans = 0;
+    int total =0;
+    while (q.empty() == false)
+    {
+        temp = q.top();
+        q.pop();
+        
+        if (visited[temp.src] == true)
+        {
+            continue;
+        }
+        total++;
+        if (total == n)
+        {
+            ans = temp.wsf;
+            s = temp.psf;
+            break;
+        }
+        visited[temp.src] = true;
+        int i = 0;
+        for (auto p : adj[temp.src])
+        {
+            if (visited[p.first] == false)
+            {
+                q.push(cls(p.first, temp.psf + to_string(p.first) + "-", temp.wsf + p.second));
+            }
+        }
+    }
+    s.pop_back();
+    cout << s;
+    cout << "\nthe cost is  :  " << ans;
+    return "";
+}
+
+// ===================================================================================================================
+
+// kruskal's algo
+
+
+// ==========================================================================================================
+
+// djestra's
+
+// struct cls
+// {
+// public:
+//     int src, wsf;
+//     string psf;
+//     cls(int src, string psf, int wsf)
+//     {
+//         this->psf = psf;
+//         this->src = src;
+//         this->wsf = wsf;
+//     }
+// };
+
+// class comparator
+// {
+// public:
+//     bool operator()(cls a, cls b)
+//     {
+//         if (b.wsf - a.wsf > 0)
+//         {
+//             return false;
+//         }
+//         return true;
+//     }
+// };
+
+string dijkeshtras(int src, int dst, vector<vector<pair<int, int>>> &adj)
+{
+    vector<bool> visited(7, false);
+    priority_queue<cls, vector<cls>, comparator> q;
+    string s = "";
+    cls temp(src, to_string(src) + "-", 0);
+    q.push(temp);
+    int ans = 0;
+    while (q.empty() == false)
+    {
+        temp = q.top();
+        q.pop();
+        
+        if (visited[temp.src] == true)
+        {
+            continue;
+        }
+
+        if (temp.src == dst)
+        {
+            ans = temp.wsf;
+            s = temp.psf;
+            break;
+        }
+        visited[temp.src] = true;
+        int i = 0;
+        for (auto p : adj[temp.src])
+        {
+            if (visited[p.first] == false)
+            {
+                q.push(cls(p.first, temp.psf + to_string(p.first) + "-", temp.wsf + p.second));
+            }
+        }
+    }
+    s.pop_back();
+    cout << s;
+    cout << "\nthe cost is  :  " << ans;
+    return "";
+}
+
+
+// ==============================================================================
+
+
+// bellman ford
+
+void bellman(int n, int src, int dst, vector<vector<pair<int, int>>> adj)
+{
+    vector<int> dist(n,INT_MAX);
+    dist[0] =0;
+    
+    for(int i=0;i<n;i++)
+    {
+	//j and k will take o(e) as we are traversing all the edges one 
+        for(int j =0;j<adj.size();j++)
+        {
+            for(int k =0;k<adj[j].size();k++)
+            {
+                int node = adj[j][k].first;
+                if(adj[j][k].second+dist[j] < dist[node])
+                {
+                    dist[node] = adj[j][k].second+dist[j];
+                }
+            }
+        }
+    }
+    cout<<"\nthd dist are  : ";
+    for(int i=0;i<n;i++)
+    {
+        cout<<dist[i]<<" ";
+    }
+}
+
+
+
+
+// ================================================================================================
+
+
+
+// floyed warshall
+
+void floyed(vector<vector<pair<int, int>>> ad, int n)
+{
+    vector<vector<int>> adj(n, vector<int>(n, INT_MAX));
+
+    for (int i = 0; i < n; i++)
+    {
+        adj[i][i] = 0;
+    }
+
+
+    for (int i = 0; i < ad.size(); i++)
+    {
+        for (int j = 0; j < ad[i].size(); j++)
+        {
+            int src = i;
+            int dst = ad[i][j].first;
+            int cost = ad[i][j].second;
+            adj[src][dst] = cost;
+        }
+    }
+
+    for (int k= 0; k < n; k++)
+    {
+        for (int i=0;i<n;i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (adj[i][k] != INT_MAX && adj[k][j] != INT_MAX && adj[i][j] > adj[i][k] + adj[k][j])
+                {
+                    adj[i][j] = adj[i][k] + adj[k][j];
+                }
+            }
+        }
+    }
+   //  we can check if -ve cycl by running loop one more time if any dist decreases ==> there is -ve cycle
+
+   for(int i=0;i<n;i++)
+   {
+       if(adj[i][i] <0)
+       {
+           cout<<"\n-ve cycle";
+       }
+   }
+   
+    cout << "\nthe cost matrix is  : \n";
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (adj[i][j] < 0)
+            {
+                cout << "n"
+                     << "     ";
+            }
+            else
+            {
+                cout << adj[i][j] << "     ";
+            }
+        }
+        cout << "\n";
+    }
+}
+
+int main()
+{
+    int n = 7;
+    vector<vector<pair<int, int>>> v(n);
+    v[0].push_back(make_pair(1, 10));
+    v[0].push_back(make_pair(3, 40));
+    v[1].push_back(make_pair(0, 10));
+    v[1].push_back(make_pair(2, 10));
+    v[2].push_back(make_pair(1, 10));
+    v[2].push_back(make_pair(3, 10));
+    v[3].push_back(make_pair(0, 40));
+    v[3].push_back(make_pair(4, 2));
+    v[4].push_back(make_pair(3, 2));
+    v[4].push_back(make_pair(5, 3));
+    v[4].push_back(make_pair(6, 10));
+    // v[4].push_back(make_pair(6, 4));   //->gives 36
+    v[5].push_back(make_pair(4, 3));
+    v[5].push_back(make_pair(6, 3));
+    v[6].push_back(make_pair(4, 8));
+    v[6].push_back(make_pair(5, 3));
+
+    cout<<"\nusing prims algo : ";   //-> minimu cost wire to cover all edges
+    prims(0,n,v);
+
+    cout<<"\n\nusing lruskal's  :  \n";
+
+
+    cout<<"\n\nusing djeksras algo :\n\n";    // minium cost from src->dst      , not valid for -ve edges  (O(elogv+ vloge))
+    dijkeshtras(0,6,v);
+
+    cout<<"\n\nusing bellmanford :\n";        // minium cost from src->dst     , valid for -ve edges ,not for -ve cycle (for -ve cycle there is no minim=um path as it always decreases)   (O(v.e))
+    bellman(n,0,6,v);
+    
+    cout<<"\n\nusing floyed algo  :\n";    // minium cost from any-> any     , valued for -ve edges , not for -ve cycles   (O(V^3))
+    floyed(v, n); 
+}

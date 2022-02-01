@@ -1,0 +1,107 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool flag = false;
+
+int find(string s, map<char, int> m)
+{
+    int val = 0;
+    for (int i = 0; i < s.length(); i++)
+    {
+        val = val + m[s[i]];
+    }
+    return val;
+}
+
+int solve(string un, int n, int i, map<char, int> &m, vector<bool> &nums, string s1, string s2, string s3)
+{
+    if(flag)
+    {
+        return 0;
+    }
+    // cout << "\nfor char " << un[i] << " the map is : ";
+    // for (auto k : m)
+    // {
+    //     cout << k.first << "->" << k.second << "  ,";
+    // }
+    if (i > n)
+    {
+        return 0;
+    }
+    if (i == n)
+    {
+        int v1 = find(s1, m);
+        int v2 = find(s2, m);
+        int v3 = find(s3, m);
+        // cout << "\ngot v1 v2 and v3 as  : " << v1 << " " << v2 << " " << v3;
+        if (v1 + v2 == v3)
+        {
+            flag = true;
+        }
+        return 0;
+    }
+
+    for (int num = 0; num < 10; num++)
+    {
+        if (nums[num] == false)
+        {
+            m[un[i]] = num;
+            nums[num] = true;
+            solve(un, n, i + 1, m, nums, s1, s2, s3);
+            nums[num] = false;
+            m[un[i]] = 0;
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    string s1 = "send", s2 = "more", s3 = "money";
+
+    string un = "";
+
+    map<char, int> m;
+
+    for (int i = 0; i < s1.length(); i++)
+    {
+        if (m.find(s1[i]) == m.end())
+        {
+            m.insert(make_pair(s1[i], -1));
+            un.push_back(s1[i]);
+        }
+    }
+
+    for (int i = 0; i < s2.length(); i++)
+    {
+        if (m.find(s2[i]) == m.end())
+        {
+            m.insert(make_pair(s2[i], -1));
+            un.push_back(s2[i]);
+        }
+    }
+
+    for (int i = 0; i < s3.length(); i++)
+    {
+        if (m.find(s3[i]) == m.end())
+        {
+            m.insert(make_pair(s3[i], -1));
+            un.push_back(s3[i]);
+        }
+    }
+    vector<bool> nums(10, false);
+    int n = un.length();
+    // cout << "\nthe map is : ";
+
+    solve(un, n, 0, m, nums, s1, s2, s3);
+
+    if (flag)
+    {
+        cout << "\npossible";
+    }
+    else
+    {
+        cout << "\nno";
+    }
+    return 0;
+}

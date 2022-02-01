@@ -1,0 +1,307 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// bubble sort(sort from right one by one)
+
+// int main()
+// {
+//     int arr[] = {3, 2, 4, 5, 1, 8, 8, 9, 0};
+//     int n = sizeof(arr) / sizeof(int);
+
+//     for (int i = 0; i < n; i++)
+//     {
+//         for (int j = 0; j < n - i - 1; j++)
+//         {
+//             if (arr[j] > arr[j + 1])
+//             {
+//                 swap(arr[j], arr[j + 1]);
+//             }
+//         }
+//     }
+//     for (int i = 0; i < n; i++)
+//     {
+//         cout << arr[i] << "  ";
+//     }
+//     return 0;
+// }
+
+//---------------------------------------------
+// insertion sort(sort from left one by one )
+
+// int main()
+// {
+//     int arr[] = {3, 2, 4, 5, 1, 8, 8, 9, 0};
+//     int n = sizeof(arr) / sizeof(int);
+
+//     for (int i = 0; i < n; i++)
+//     {
+//         int j = i;
+//         while (j > 0 && arr[j] < arr[j - 1])
+//         {
+//             swap(arr[j], arr[j - 1]);
+//             j--;
+//         }
+//     }
+
+//     for (int i = 0; i < n; i++)
+//     {
+//         cout << arr[i] << "  ";
+//     }
+
+//     return 0;
+// }
+
+
+// ------------------------------------------------------------
+
+
+// selection sort(select a min element from remainging and swap it with curr ind)
+
+// int main()
+// {
+//     int arr[] = {3, 2, 4, 5, 1, 8, 8, 9, 0};
+//     int n = sizeof(arr) / sizeof(int);
+
+//     for (int i = 0; i < n; i++)
+//     {
+//         int mini = i; // mini(index with low value)
+//         for (int j = i + 1; j < n; j++)
+//         {
+//             if (arr[mini] > arr[j])
+//             {
+//                 mini = j;
+//             }
+//         }
+//         swap(arr[i], arr[mini]);
+//     }
+
+//     for (int i = 0; i < n; i++)
+//     {
+//         cout << arr[i] << " ";
+//     }
+//     return 0;
+// }
+
+
+// -----------------------------------------
+
+// merge sort
+
+// void merge(int arr[], int l, int m, int r)
+// {
+//     int n1 = m - l + 1;
+//     int n2 = r - m;
+
+//     int a[n1], b[n2];
+//     for (int i = 0; i < n1; i++)
+//     {
+//         a[i] = arr[l + i];
+//     }
+//     for (int j = 0; j < n2; j++)
+//     {
+//         b[j] = arr[m + 1 + j];
+//     }
+//     int i = 0, j = 0, k = l;
+
+//     while (i < n1 && j < n2)
+//     {
+//         if (a[i] <= b[j])
+//         {
+//             arr[k] = a[i];
+//             i++;
+//         }
+//         else
+//         {
+//             arr[k] = b[j];
+//             j++;
+//         }
+//         k++;
+//     }
+
+//     while (i < n1)
+//     {
+//         arr[k] = a[i];
+//         i++;
+//         k++;
+//     }
+
+//     while (j < n2)
+//     {
+//         arr[k] = b[j];
+//         k++;
+//         j++;
+//     }
+// }
+
+// void mergesort(int arr[], int l, int r)
+// {
+//     if (l >= r)
+//     {
+//         return;
+//     }
+
+//     if (l < r)
+//     {
+//         int m = (l + r) / 2;
+//         mergesort(arr, l, m);
+//         mergesort(arr, m + 1, r);
+//         merge(arr, l, m, r);
+//     }
+// }
+
+// int main()
+// {
+//     int arr[] = {3, 2, 4, 5, 1, 5, 8, 9, 0};
+//     int n = sizeof(arr) / sizeof(int);
+
+//     mergesort(arr, 0, n - 1);
+//     cout << "\nthe ans is : ";
+//     for (int i = 0; i < n; i++)
+//     {
+//         cout << arr[i] << "  ";
+//     }
+//     return 0;
+// }
+
+// ------------------------------------------------------------------------------------------
+
+
+// heap sort
+
+// void buildheap(int arr[], int data, int n)
+// {
+//     arr[n] = data;
+//     int i = n;
+//     n++;
+//     int parent = (i - 1) / 2;
+//     while (parent >= 0)
+//     {
+//         if (arr[i] > arr[parent])
+//         {
+//             swap(arr[i], arr[parent]);
+//             i = parent;
+//             parent = (i - 1) / 2;
+//         }
+//         else
+//         {
+//             break;
+//         }
+//     }
+// }
+
+// void heapfy(int arr[], int n)
+// {
+//     int i = 0;
+//     int lchild = 2 * i + 1, rchild = 2 * i + 2;
+//     if (n == 1)
+//     {
+//         return;
+//     }
+//     if (n == 2)
+//     {
+//         if (arr[lchild] > arr[i])
+//         {
+//             swap(arr[lchild], arr[i]);
+//         }
+//         return;
+//     }
+
+//     while (lchild < n & rchild < n)
+//     {
+//         if (arr[lchild] > arr[i] || arr[rchild] > arr[i])
+//         {
+//             if (arr[lchild] > arr[rchild])
+//             {
+//                 swap(arr[lchild], arr[i]);
+//                 i = lchild;
+//                 lchild = 2 * i + 1, rchild = 2 * i + 2;
+//             }
+//             else
+//             {
+//                 swap(arr[rchild], arr[i]);
+//                 i = rchild;
+//                 lchild = 2 * i + 1, rchild = 2 * i + 2;
+//             }
+//         }
+//         else
+//         {
+//             break;
+//         }
+//     }
+// }
+
+// int main()
+// {
+//     int arr[] = {3, 2, 4, 5, 1,2,2,2,2,2,2,2,2,3,3,3,4, 5, 8, 9, 0};
+//     int n = sizeof(arr) / sizeof(int);
+//     // build max heap
+//     for (int i = 0; i < n; i++)
+//     {
+//         buildheap(arr, arr[i], i);
+//     }
+
+//     // heapify
+//     int k = n;
+
+//     for (int i = 0; i < n; i++)
+//     {
+//         cout << "\n deleting : " << arr[0];
+//         swap(arr[0], arr[k - 1]);
+//         k--;
+//         heapfy(arr, k);
+//     }
+//     cout << "\nthe array  is : ";
+//     for (int i = 0; i < n; i++)
+//     {
+//         cout << arr[i] << " ";
+//     }
+//     return 0;
+// }
+
+
+// ----------------------------------------------------------------------------------------------------
+
+// quick sort
+
+void quicksort(int arr[], int l, int r)
+{
+    if (l >= r)
+    {
+        return;
+    }
+    int pivot = r;
+
+    int p1 = l, p2 = r - 1;  // p1 ->left pointer p2 -> right pointer
+
+    while (p1 <= p2)
+    {
+        while (p1 < r && arr[p1] <= arr[pivot])
+        {
+            p1++;
+        }
+        while (p2 >= 0 && arr[p2] > arr[pivot])
+        {
+            p2--;
+        }
+        if (p1 <= p2)
+        {
+            swap(arr[p1], arr[p2]);
+        }
+    }
+    swap(arr[p1],arr[pivot]);
+    quicksort(arr,0,p1-1);
+    quicksort(arr,p1+1,r);
+}
+
+int main()
+{
+    int arr[] = {3, 2, 4, 5, 1, 5, 8, 9, 0};
+    int n = sizeof(arr) / sizeof(int);
+
+    quicksort(arr, 0, n - 1);
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i] << " ";
+    }
+}

@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int  n = 4;
+
+    int dp[n+1];
+    for(int i=0;i<=n;i++)
+    {
+        dp[i]=0;
+    }
+    dp[0]=1;
+    for(int i=1;i<=n;i++)
+    {
+        int left =0;
+        int right = i-1;
+        int count =0;
+        while (right >=0)
+        {
+            count++;
+            dp[i] = dp[i]+dp[left]*dp[right];
+            left++;right--;
+        }
+    }
+
+    cout<<"\nthe dp of  ->  "<<n<<" is  :  "<<dp[n];
+    return 0;
+}

@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+string say(string s)
+{
+    int freq = 1;
+    int n = s.length();
+    string ans = "";
+    for (int i = 1; i < n; i++)
+    {
+        if (s[i] == s[i - 1])
+        {
+            freq++;
+        }
+        else
+        {
+            ans = ans + to_string(freq);
+            ans.push_back(s[i - 1]);
+            freq = 1;
+        }
+    }
+    ans = ans + to_string(freq);
+    char ch = s[n - 1];
+    ans.push_back(ch);
+    return ans;
+}
+
+string countAndSay(int n)
+{
+    string now = "";
+    string prev = "1";
+
+    for (int i = 1; i < n; i++)
+    {
+        now = say(prev);
+        prev = now;
+    }
+    return prev;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    string ans = countAndSay(n);
+    cout << ans;
+}

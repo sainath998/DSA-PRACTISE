@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void transpose(int arr[4][4])
+{
+    int n = 4;
+
+    for(int i =0;i<4;i++)
+    {
+        for(int j=i;j<n;j++)
+        {
+            swap(arr[i][j],arr[j][i]);
+        }
+    }
+    return ;
+}
+
+void imagefory(int arr[4][4])
+{
+    int n =4;
+
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n/2;j++)
+        {
+            swap(arr[i][j],arr[i][n-j-1]);
+        }
+    }
+}
+
+
+void imageforx(int arr[4][4])
+{
+    int n =4;
+    for(int i=0;i<n/2;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            swap(arr[i][j],arr[n-i-1][j]);
+        }
+    }
+
+}
+
+int main()
+{
+    int arr[4][4] =  {
+                        {10, 20, 30, 40},  
+                        {15, 25, 35, 45}, 
+                        {27, 29, 37, 48}, 
+                        {32, 33, 39, 50}
+                    }; 
+
+    int  n = 4;
+    // rotate array by  90 degrees
+    transpose(arr);
+    
+
+    // imagefory with y axis    => 90 degrees
+    // cout<<"\n90  degrees : \n";
+    // imagefory(arr);
+
+    // for(int i =0;i<4;i++)
+    //  {
+    //      for(int j=0;j<n;j++)
+    //      {
+    //          cout<<arr[i][j]<<"  ";  
+    //      }
+    //      cout<<endl;
+    //  }
+
+     
+
+    // return 0;
+
+
+    // imageforx with x axis  => 180 degreess
+
+    imageforx(arr);
+    cout<<"\n180  degrees not working : \n";
+    
+    for(int i =0;i<4;i++)
+     {
+         for(int j=0;j<n;j++)
+         {
+             cout<<arr[i][j]<<"  ";  
+         }
+         cout<<endl;
+     }
+
+     return 0;
+
+}

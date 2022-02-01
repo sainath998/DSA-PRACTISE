@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+// we itratate from every edge if it was not visited then we
+// travese all the edges of them using dfs after doing dfs we push it to the stack 
+// the first the element pushes the last it comes
+
+
+
+void dfs(vector<vector<int>> adj, int v,vector<bool>& visited,stack<int>& s)
+{
+    visited[v] = true;
+    
+    for(int i= 0;i< adj[v].size();i++)
+    {
+        if(!visited[adj[v][i]])
+        {
+            dfs(adj,adj[v][i],visited,s);
+        }
+    }
+    // since this will come for the last end and then to prev last (As the last is pushd )
+    s.push(v);
+}
+
+int main()
+{
+    // topological sort  ( we have to traverse all the elements and ans will cntain  --u--v--- if u->v)  note: it was not cyclic and not disjoin 
+
+    int n = 6;
+    vector<vector<int>> adj(n);
+    adj[0].push_back(5);
+    adj[1].push_back(4);
+    adj[1].push_back(3);
+    adj[2].push_back(0);
+    adj[2].push_back(4);
+    adj[2].push_back(5);
+    adj[3].push_back(0);   
+
+    // itarate through every node .if it was not visited (after visiting  do dfs so that we reach the end from where we cannot go further amd push it to stack and
+    // and come back and use the same logic and at last of each dfs push the present element to stack (since we had completey explored this v
+    // so it will be the laset as the next of these are pushed to stack))
+
+    // pass stack and visited using reference 
+
+    vector<bool> visited(n,false);
+    stack<int> s;
+
+    for(int i=0;i<n;i++)
+    {
+        if(!visited[i])
+        {
+            // s and visited passsed using reference
+            dfs(adj,i,visited,s);
+        }
+    }
+    
+    // push the elements of stack to ans (top(last element ) in stack will come on first)
+    vector<string> ans;
+    while (s.empty() == false)
+    {
+        ans.push_back(to_string(s.top()));
+        s.pop();
+    }
+    
+     for(int i=0;i<ans.size();i++)
+     {
+         cout<<ans[i]<<"  ";
+     }
+
+}

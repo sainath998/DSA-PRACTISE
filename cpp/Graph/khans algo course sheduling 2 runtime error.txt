@@ -1,0 +1,51 @@
+vector<vector<int>> adj(numCourses);
+    for(int i=0;i<prereq.size();i++)
+    {
+        adj[prereq[i][1]].push_back(prereq[i][0]);
+    }
+    
+    vector<int> v(numCourses,0);
+    for(int i=0;i<adj.size();i++)
+    {
+        for(int j=0;j<adj[i].size();i++)
+        {
+            v[adj[i][j]]++; 
+        }
+    }
+    queue<int> q;
+    for(int i=0;i<numCourses;i++)
+    {
+        if(v[i] == 0)
+        {
+            count++;
+            q.push(i);
+        }
+    }
+    int count  = 0;
+    vector<int> ans;
+    while (q.empty() == false)
+    {
+        if(count >numCourses)
+        {
+            vector<int> ex;
+            return ex;
+        }
+        int temp = q.front();
+        q.pop();
+        ans.push_back(temp);
+        for(int i =0;i<adj[temp].size();i++)
+        {
+            v[adj[temp][i]]--;
+            if(v[adj[temp][i]] == 0)
+            {
+                count++;
+                q.push(adj[temp][i]);
+            }
+        }
+    } 
+        if(count != numCourses)
+        {
+            vector<int> ex;
+            return ex;
+        }
+    return ans;

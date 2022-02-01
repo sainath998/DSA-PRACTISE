@@ -1,0 +1,104 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct tree
+{
+    int data;
+    tree *left, *right;
+};
+
+tree *newnode(int data)
+{
+    tree *temp;
+    temp = new tree;
+    temp->data = data;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+int findh(tree *node)
+{
+    if (node == NULL)
+    {
+        return 0;
+    }
+    int lh = findh(node->left);
+    int rh = findh(node->right);
+    int h = max(lh, rh) + 1;
+    return h;
+}
+
+void leftview(tree *root, int hight, int arr[])
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    if (arr[hight] == 0)
+    {
+        cout << root->data << "   ";
+        arr[hight] = 1;
+    }
+
+    // change two if order to get the right view
+    
+    if (root->left != NULL)
+    {
+        leftview(root->left, hight + 1, arr);
+    }
+    if (root->right != NULL)
+    {
+        leftview(root->right, hight + 1, arr);
+    }
+    
+}
+
+
+void swap(tree *node)
+{
+    if(node == NULL)
+    {
+        return ;
+    }
+    swap(node->left);
+    swap(node->right);
+    tree *temp;
+    temp = node->left;
+    node->left = node->right;
+    node->right = temp;
+}
+
+tree *mirror(tree *root)
+{
+    swap(root);
+    return root;
+}
+
+int main()
+{
+    tree *root;
+    root = newnode(1);
+    root->left = newnode(2);
+    root->right = newnode(3);
+    root->left->left = newnode(4);
+    root->left->right = newnode(5);
+    root->right->left = newnode(6);
+    root->right->left->left = newnode(8);
+    root->right->left->left->right = newnode(8);
+    root->right->left->left->right->left = newnode(9);
+    int hight = findh(root);
+    int arr[hight];
+    for(int i=0;i<hight;i++)
+    {
+        arr[i] =0;
+    }
+    root->right->right = newnode(7);
+    root->right->right->left = newnode(10);
+
+    // made the tree reversed and view of the left tree
+    
+    root = mirror(root);
+    leftview(root,0,arr);
+    return 0;
+}

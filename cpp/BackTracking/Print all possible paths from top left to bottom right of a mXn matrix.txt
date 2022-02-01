@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int solve(int arr[2][3], int n, int m, int i, int j, string asf)
+{
+    if (i >= n || j >= m)
+    {
+        return 0;
+    }
+    asf = asf + to_string(arr[i][j]) + "-";
+    if (i == n - 1 && j == m - 1)
+    {
+        asf.pop_back();
+        cout << asf << "\n";
+    }
+    solve(arr, n, m, i + 1, j, asf);
+    solve(arr, n, m, i, j + 1, asf);
+}
+
+int main()
+{
+    int arr[2][3] = {
+        {1, 2, 3},
+        {4, 5, 6}};
+
+    int n = 2, m = 3;
+
+    solve(arr, n, m, 0, 0, "");
+}

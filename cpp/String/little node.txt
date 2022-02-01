@@ -1,0 +1,11 @@
+longest common substring
+
+
+longest common subsequence
+
+
+minimum deletions at any index to make palindromw  = len - (length of common subsequence(s1,s2))  s2 = rev(s1)
+
+minimum addtions = minimum deletions to make a palindrome
+
+minimum addtions at starting to make a string palindrome = len-longestpalindrome(when j = len-1

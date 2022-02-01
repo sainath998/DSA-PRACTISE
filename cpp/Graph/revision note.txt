@@ -1,0 +1,68 @@
+bfs : breadth first search ( uses queue)  -> no of islands
+
+dfs : deppth first search (uses stack)   -> no of islands,time taken to rotten all oranges
+
+dijektras algo :  same as breadth for search (uses priority queue),pathsofar,totalcost = prev+curr
+
+prims  : same as dijektras algo we dont add the prev sum to coast (uses priority queue)
+:
+:							for what they used
+:							------------------
+bfs :  src->dest (using minium edges)
+
+dijektras : src-> dest (using minium cost)
+
+prims and kruskals  --> application of minium spanning tree
+
+spanning tree  : connect all nodes with minium wire(always no of edges are nodes-1)
+:				no of possible spanning trees are pow(n,n-2)
+:				
+                                 	
+prims :  traverse all nodes (using minium cost): we dont store prev cost wile traversing
+
+
+
+cheapest flight : minium cost from src to dst  --> application of directional cyclic graph
+:               
+:				: solved by dijektras(v2),  k(stops) <-1 (since we count the stop form x->dst also)although it was not a stop
+:				floyed warshall(v3)can detect cycle (trevese by stoping at each node  dist = min(dist[src->dst],dist[src->k]+dist[k->dst) can detect cycle
+:				
+:				belmann ford(v3):
+:				
+
+reconstruct itrenary :  bfs+ stack(for backtrack when there is no root for comming back)  => reverse of stackwill be our ansywer 
+:						since the stack top contains city froom where we can't go anywhere
+
+
+
+
+directional cyclic :  ex : course scheduling 
+:                 
+:				KeyNote : visited was send with refernce not with value
+:	           use visited(n,int) then after calling the function
+:			   0-> not visited so make it one 
+:			   1-> processing node came again so return true
+:			   2-> node already processed and it doesn't have any cycle return false
+:			   
+undirctional graph : 
+:				
+:				KeyNote : visited was send with value not with refernce
+:				use visited(n,int) then after calling the function 
+:				
+:				0-> the node was not visted so make it visited vis = 1;
+:				1-> the node was visited by the adjcent node (since bidirectnal) so make it vis = 2
+:				2-> the node was visited already two times(0->1 for making visited and 1->2 by adjcent node )
+:				so it was visited by other node so cycle return true
+:				
+
+topological sort :  ex : course scheduling 2 ( ndegree 0,1,2---): 
+:					
+:					traverse from any node and if nothing left then push the element to
+:					stack and backtrack
+	
+
+
+
+
+
+

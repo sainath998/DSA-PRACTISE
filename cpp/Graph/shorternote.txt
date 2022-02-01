@@ -1,0 +1,65 @@
+graphs: adjcent list,adjcent matrix
+
+bfs(uses queue), dfs(uses stack) -> (islands(1,2),rotten oranges(2) )
+
+cyclic undirectional(pass by variable,0->make1,1->make 2,2->return true (cuourse scheduling1)),  directional(pass by refreence 0 make1 ,1-> return true,2->return flase
+
+we can also find cycle in undirectional graphs using disjoin sets (it two verteces has same root and if they want to from a new edge b/w them then there was going to be a cycle)
+		use disjoin sets array to find the rooot of each verteces in all edeges(if two verteces in edge has same root -> there is   a cycle)
+
+min cost from src->dst : 
+		djkestras algo  :  priority queue,cost+prev_cost+dfs (greedy algo)
+
+		bellman ford    :  v *e
+			we have 3 arrays parent(holds which index has which parent) , parent_cost which hold the cost of parent from that index , value(cost from index to souce(take as 0))
+			we loop for v-1 all the  edges  we have one bool update =false to check if any progress or not  we have u,v,wt(u->v(using weight)) if(value[u]!=MAX && value[u]+wt< value[v] => find shortest path
+			so make parent[v]=u and parent_cost= wt,value =parent_cost+value[u],update = true;
+	
+			-> for -ve cycle run the loop once more to find if -ve cycle exist or not not update value indeed print -ve cycle
+			->now, we got final lowest path
+
+		floyed warshall :v^3
+
+			-> to check all pairs shortest paths
+			->take a dist[v][v]  array (copy of the graphs)  (ed :dist[src][dst]=wt;)
+
+			-> three for loops  
+				-> 1st one  for taking intermediate node(k) 
+				->2nd one for starting node(i)
+				->3rd one for ending node (j)
+					-> in 3rd loop chec dist[src][k] !=MAX and disjoin[k][dst] != MAX
+					->then if(dist[src][k]+dist[k][j]<dist[i][j] then update
+
+
+spanning tree(minimum cost to go to all the edges)-> prims kruskals
+
+		prims algo  (min cost to traverse all ) : priority queue , cost = present_cost +dfs
+
+		kruskals algo : sort all the edges with non decreasing wts,take the smallest wts		
+						and try to put in that edge if it forms cycle(in disjoin sets fromp == toP =>cycle) then leave it
+						else push edge in mst(minimum spanningtree) vecotr(ans)  and we stop it weather all edges are over or edges pushed = n-1
+
+
+
+reconstruct itenary(in alphabetical and travel all the cities  order) stack+dfs 
+	-> the first element pushes into stack is element from which we cannot go further(no nex ofit then backtrack) 
+
+	note reaching end but we should print at last and we have to bactrack to last point => stack is best method
+
+topologial sort -> stack+dfs ( u->v then in solun --u--v--- ) uses visited array and start element push into stack has no way further
+				   and 2nd method is  khan's algo (eg : courses scheduling 2)
+
+
+				-> khan's algo -> queue+ indegree-array+ cuount variable
+
+					note->we start from where indegree is 0 ans push element with ndegree 0 intp queue
+					-> now the we decrease the element which they pointing indegree by 1 (as we had studied this burder decreases) and if it becomes indegree0 them we push it also into the queue
+					it goes in untill all are over ( whenever we take the element from queue we pop it ans store in ans)
+
+findig strongly connected components
+	
+				floyed warshall (bruit force) find adj has all other elements or not(if have then  it was strongly connected )
+
+				kosaraju(strongly connected components ) dfs + reverse the graph + use the stack from dfs and traverse (when we end that is one strongly connected component) then take another element in stack ,ignore and pop another element if the top was alredy visited 2nd time by the prev components
+						
+									-> as strongly connected component will not alter by reversing its directions 

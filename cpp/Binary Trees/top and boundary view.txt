@@ -1,0 +1,152 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next;
+};
+
+node *newnode(int data)
+{
+    node *temp;
+    temp->data = data;
+    temp->next = NULL;
+    return temp;
+}
+
+void tpview(node *node)
+{
+    map<int,int> m;
+    queue<pair<node *,int>> q;
+    q.push(node,0);
+    while (!q.empty())
+    {
+        node *t = q.front().first;
+        int h = q.front().second;
+        q.pop();
+        if(!m[h])
+        {
+            m[h] = t->data;
+        }
+        if(t->left)
+        {
+            q.push(t->left,h-1);
+        }
+        if(t->right)
+        {
+            q.push(t->right,h+1);
+        }
+    }
+    for(auto i : m)
+    {
+        cout<<i.second<<"   ";
+    }
+}
+
+int main()
+{
+    node *root;
+    root->next = newnode(1);
+    root->next->next = newnode(4);
+    root->next->next->next = newnode(7);
+    root->next->next->next->next = newnode(3);
+    root->next->next->next->next->next = newnode(6);
+    root->next->next->next->next->next->next = newnode(2);
+    tpview(root);
+}
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node *left, *right;
+};
+
+node *newnode(int data)
+{
+    node *temp;
+    temp = new node;
+    temp->data = data;
+    temp->left = NULL;
+    temp->right = NULL;
+}
+
+void left(node* root,vector<node*> &ans)
+{
+    if(!root )
+    {
+        return ;
+    }
+    if(root->left)
+    {
+        ans.push_back(root);
+        left(root->left,ans);
+    }
+    else if (root->right)
+    {
+        ans.push_back(root->right);
+        left(root->right,ans);
+    }
+}
+
+void boundary(node* root,vector<node*> &ans)
+{
+    if(!root)
+    {
+        return ;
+    }
+    boundary(root->left,ans);
+    if(!root->left && !root->right )
+    {
+        ans.push_back(root);
+    }
+    boundary(root->right,ans);
+}
+
+void right(node* root,vector<node*> &ans)
+{
+    if(root == NULL)
+    {
+        return ;
+    }
+    if(root->right)
+    {
+        right(root->right,ans);
+        ans.push_back(root);
+    }
+    else if (root->left)
+    {
+        right(root->left,ans);
+        ans.push_back(root->right);
+    }
+}
+
+int main()
+{
+    node *root;
+    root = newnode(1);
+    root->left = newnode(2);
+    root->right = newnode(3);
+    root->left->left = newnode(4);
+    root->left->right = newnode(5);
+    root->right->left = newnode(6);
+    root->right->right = newnode(7);
+
+    vector<node*> ans;
+    ans.push_back(root);
+    left(root->left,ans);
+    boundary(root,ans);
+    right(root->right,ans);
+
+    for(node *temp : ans)
+    {
+        cout<<temp->data<<"  ";
+    }
+   
+}

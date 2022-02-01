@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int a =4;
+    // power of two
+
+    a = a &(a-1);
+    if(a == 0)
+    {
+        cout<<"\nyes";
+        return 0;
+    }
+    cout<<"\nno";
+    return 0;
+}

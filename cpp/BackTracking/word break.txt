@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void print(string s, string dict[], int n, int k, string asf)
+{
+    // boundary check
+    // cout << "\nthe string we got is  :   " << s;
+    if (s.length() == 0)
+    {
+        asf = asf.substr(1);
+        cout << asf << endl;
+        return;
+    }
+
+    for (int j = 0; j < k; j++)
+    {
+        string temp = dict[j];
+        int len = temp.length();
+        if (len <= s.length())
+        {
+            string left = s.substr(0, len);
+            // cout<<"\nthe left and the temp are  :   "<<left<< "   "<<temp;
+            if (left == temp)
+            {
+                string right = s.substr(len);
+                print(right, dict, right.length(), k,asf+ "-" + left);
+            }
+        }
+    }
+}
+
+// overflow
+
+int main()
+{
+    string s = "snakesandladder";
+    string dict[] = {"snake", "snakes", "and", "sand", "ladder"};
+    int n = sizeof(dict) / sizeof(string);
+    int m = s.length();
+
+    // print the solutions
+
+    print(s, dict, m, n, "");
+}

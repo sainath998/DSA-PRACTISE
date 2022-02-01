@@ -1,0 +1,26 @@
+lexical order (element pops first will come last since from there we cannot go anywhere
+
+take 
+
+         a
+	b         c      (a->b, a->c , c->a) are possible ways 
+	
+we have to follow lexical order but when we go from a->b there is no
+way to traverse to c . so we have to somehow backtrack and coome to c-
+as from a->c then c->a then a->b will traverse all
+
+idea (use stack when there is no element to trevese then pop the top and 
+traverse from the next top of stack )
+
+:  the element which pop first was going to come in the last (since from there we cannot go anywhere)
+=> we have to pop and reverse the answer
+
+approach: 
+ 
+ we go in lexical ie a->b and b->nowhere (Stack has a,b) we pop b and store it in answer
+ 
+ then from a we go to c stack have(a,c now ) then from c we go to a 
+ 
+ then a -> we cannot go anywhere as all are traversed so, ans : b a c a then reverse it 
+ 
+ => a->c->a->b 

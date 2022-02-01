@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void arrrev(int arr[],int l,int r)
+{
+    while (l < r)
+    {
+        swap(arr[l],arr[r]);
+        l++;r--;
+    }
+    return ;
+    
+}
+
+int main()
+{
+
+    // then we swap then inverse element with then min element just greater than this inverse element
+    // after that we just reverse the increasing sequence(inverse index + 1 t0  last) in order to get decreasing sequence(for smaller number just greater than the givne number)
+    
+
+    // this  small nbr just greater than the given number was goint to be our next permitation
+    int arr[]  ={4,3,1,2,8,0};
+    int inversepoint;
+    int n = sizeof(arr)/sizeof(int);
+    int i=n-1;
+    while (arr[i] < arr[i-1])
+    {
+        i--;
+    }
+    inversepoint = i-1;
+    i = n-1;
+    while (arr[inversepoint]> arr[i])
+    {
+        i--;
+    }
+    swap(arr[inversepoint],arr[i]);
+    arrrev(arr,inversepoint+1,n-1);
+    for(int i=0;i<n;i++)
+    {
+        cout<<arr[i]<<"  ";
+    }
+    
+    return 0;
+}
+
+
+/*
+ void arrrev(vector<int> &arr, int l, int r)
+    {
+        while (l < r)
+        {
+            swap(arr[l], arr[r]);
+            l++;
+            r--;
+        }
+        return;
+    }
+
+    void nextPermutation(vector<int> &arr)
+    {
+        int inversepoint;
+        int n = arr.size();
+        int i = n - 1;
+        while (i > 0 && arr[i] <= arr[i - 1])
+        {
+            i--;
+        }
+        if (i == 0)
+        {
+            sort(arr.begin(), arr.end());
+            // for (int i = 0; i < n; i++)
+            // {
+            //     cout << arr[i] << "  ";
+            // }
+            return ;
+        }
+        inversepoint = i - 1;
+        i = n - 1;
+        while (arr[inversepoint] >= arr[i])
+        {
+            i--;
+        }
+        swap(arr[inversepoint], arr[i]);
+        arrrev(arr, inversepoint + 1, n - 1);
+        // for (int i = 0; i < n; i++)
+        // {
+        //     cout << arr[i] << "  ";
+        // }
+    }
+	*/

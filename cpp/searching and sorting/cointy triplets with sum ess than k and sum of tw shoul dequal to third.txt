@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    // triplets with sum smaller than given value
+    int arr[] = {5, 1, 3, 4, 7};
+    int k = 12;
+    int n = sizeof(arr) / sizeof(int);
+
+    int v[8];
+    for (int i = 0; i <= 8; i++)
+    {
+        v[i] = 0;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        v[arr[i]]++;
+    }
+    cout << "\nthe arr is  :  ";
+    for (int i = 0; i < 8; i++)
+    {
+        cout << v[i] << "   ";
+    }
+
+    int ans = 0;
+
+    int p = v[0] * (v[0] - 1) * (v[0] - 2);
+    if (p > 0)
+    {
+        ans = ans + p;
+    }
+    cout << "\n1st step ans is :  " << ans;
+    //  1 0's and 2 same numbs
+    for (int i = 1; i < 8; i++)
+    {
+        int p = v[0] * v[i] * (v[i] - 1) / 2;
+        if (p > 0)
+        {
+            ans = ans + p;
+        }
+    }
+    cout << "\n2st step ans is :  " << ans;
+
+    for (int i = 1; i < 8; i++)
+    {
+        int p = +v[i] * (v[i] - 1) * v[2 * i] / 2;
+        if (p > 0)
+        {
+            ans = ans + p;
+        }
+    }
+
+    cout << "\n3st step ans is :  " << ans;
+
+    for (int i = 1; i < 8; i++)
+    {
+        for (int j = i + 1; j < 8; j++)
+        {
+            int valu = 2*(i + j);
+            if (valu < 12)
+            {
+                int p = 0;
+                p = v[i + j] * v[i] * v[j];
+                if (p > 0)
+                {
+                    cout << "\np become : " << p << "  wit i j  v[i] and v[j]  and v[i+j]: " << i << "  " << j << "  " << v[i] << "  " << v[j] << "  " << v[i + j];
+                    ans = ans + p;
+                    cout << "\nanswer now became : " << ans << "  with i and j as   : " << i << "  " << j;
+                }
+            }
+        }
+    }
+    cout << "\nans is  : " << ans;
+    return 0;
+}

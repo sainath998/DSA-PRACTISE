@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int cnt = 0;
+
+int solve(int arr[], int n, int i, int sum, int rsum, string asf)
+{
+    if (sum > rsum || i >= n)
+    {
+        return 0;
+    }
+    if (sum == rsum)
+    {
+        asf.pop_back();
+        cout << asf << endl;
+        cnt++;
+        return 1;
+    }
+    solve(arr, n, i, sum + arr[i], rsum, asf + to_string(arr[i]) + "-");
+    solve(arr, n, i + 1, sum, rsum, asf);
+}
+
+int main()
+{
+    int arr[] = {2, 5, 6, 7};
+    int n = sizeof(arr) / sizeof(int);
+
+    int ways = solve(arr, n, 0, 0, 16, "");
+    cout << "\nthe no of ways  :  " << cnt;
+    return 0;
+}

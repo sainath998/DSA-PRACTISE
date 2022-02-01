@@ -1,0 +1,62 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+int start = 0;
+void hamil(vector<vector<int>> adj, int src, int n, vector<int> path, vector<bool> visited, string asf)
+{
+    if (path.size() == n)
+    {
+        cout << "\nhamil path exist for node : " << src<<" and the path is  : " << asf;
+
+        for (auto node : adj[src])
+        {
+            if (node == start)
+            {
+                cout << "\nhamiltonial cycle exist";
+            }
+        }
+
+        return;
+    }
+
+
+    for (auto node : adj[src])
+    {
+        if (!visited[node])
+        {
+            visited[node] = true;
+            path.push_back(node);
+            hamil(adj, node, n,path, visited, asf + "->" + to_string(node));
+            visited[node] = false;
+            path.pop_back();
+        }
+    }
+    
+}
+
+int main()
+{
+    int n = 7;
+    vector<vector<int>> v(n);
+    v[0].push_back(1);
+    v[0].push_back(3);
+    v[1].push_back(0);
+    v[1].push_back(2);
+    v[2].push_back(1);
+    v[2].push_back(3);
+    v[2].push_back(5);
+    v[3].push_back(0);
+    v[3].push_back(4);
+    v[4].push_back(3);
+    v[4].push_back(5);
+    v[4].push_back(6);
+    v[5].push_back(4);
+    v[5].push_back(6);
+    v[6].push_back(4);
+    v[6].push_back(5);
+    vector<bool> visited(n, false);
+    visited[0] = true;
+    vector<int> path;
+    path.push_back(0);
+    hamil(v, 0, n, path, visited, "0");
+}

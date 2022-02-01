@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int find(string s)
+{
+    stack<char> st;
+    int n = s.length();
+
+    for (int i = 0; i < n; i++)
+    {
+        if (s[i] == '(' || s[i] == ')')
+        {
+            if (s[i] == '(')
+            {
+                st.push(s[i]);
+            }
+
+            else
+            {
+                if (st.empty())
+                {
+                    st.push(s[i]);
+                }
+                else if (st.top() == ')')
+                {
+                    st.push(s[i]);
+                }
+                else
+                {
+                    st.pop();
+                }
+            }
+        }
+    }
+    return st.size();
+}
+
+set<string> m;
+
+int solve(string s, int i, int rm)
+{
+    if (rm == 0)
+    {
+        if (find(s) == 0)
+        {
+            if (m.find(s) == m.end())
+            {
+                cout << s << "\n";
+                m.insert(s);
+            }
+        }
+        return 0;
+    }
+
+    if (i == s.length())
+    {
+        return 0;
+    }
+
+    string temp;
+    temp = s.substr(0, i);
+    temp = temp + s.substr(i + 1);
+    if (s[i] == '(' || s[i] == ')')
+    {
+        solve(temp, i + 1, rm - 1);
+    }
+
+    solve(s, i + 1, rm);
+}
+
+int main()
+{
+    string s = "(v)())()";
+    int n = s.length();
+    int rm = find(s);
+    solve(s, 0, rm);
+}

@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int arr[] = {1,2,3};
+    int  n = sizeof(arr)/sizeof(int);
+    int ans= 0,target=2;
+    map<int,int> s;
+    s.insert(make_pair(0,1));  // 0 freq was 1
+    int sum =0;
+    for(int i=0;i<n;i++)
+    {
+        sum = sum+arr[i];
+        if(s.count(sum-target) >0)
+        {
+            ans = ans+ s[sum-target];
+            s[sum]++;
+        }
+        else
+        {
+            s.insert(make_pair(sum,1));
+        }
+    }
+    cout<<ans;
+    return 0;
+
+}

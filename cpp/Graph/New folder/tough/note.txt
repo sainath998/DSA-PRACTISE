@@ -1,0 +1,45 @@
+tarjan's algo 
+
+tree edge (u->v) tree edge (parent,child)
+
+fwd edge (u->v->w) u,w (ancestor ,desedent)
+
+back edge ( the above node was connected in some other way)  => (desedent,ancestor)
+
+cross edge -> don't have anscistor , desedent relation   ( it the node next to it was allready decovered and not in stack)
+
+
+-> if ( discovery time == lowtime while backtracking ) => it wa a strongly connected component 
+
+
+
+-> if the value was already visited (in stack) then it was a back edge 
+
+otherwise it wil be a cross edge
+
+-> strongly connected comp(scc)
+
+scc1 -----cross edge-------> scc2
+
+
+
+when back edge -> min[] = (min(present,nex node discovery)
+
+when not back edge -> min[] = (min(present,next node min)
+
+
+articulation point :
+------------------
+-> we use discovery time,ap(articulationpoint),parent(if parent ==-1 -> root)
+we don't use any cross edge (as we are not using any cross edge things)
+
+
+(if it was root node) ->  if it has more than one sub graph  => articulation point(since two or more chiren and it was root so if we reomve it will create components) -> articulation point
+
+(else) -> if(any of subgraph has no back edge to any of ansistor or we can say low[anychild]>=discovery[parent]) -> articulation point)  
+
+
+low[anychild of particular parent ] > discovery[particular parent]=> there is no back edge from child to above of particular parent node
+
+
+

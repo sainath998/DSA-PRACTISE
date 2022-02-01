@@ -1,0 +1,150 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct tree
+{
+    int data;
+    tree *left, *right;
+};
+
+
+tree *newnode(int data)
+{
+    tree *temp;
+    temp = new tree;
+    temp->data = data;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+struct Dpair
+{
+    int dia,hight;
+};
+
+Dpair *findm(tree *root)
+{
+    if(root == NULL)
+    {
+        Dpair *temp = new Dpair;
+        temp->hight = -1;
+        temp->dia = 0;
+        return temp;
+    }
+    Dpair *leftpair  = findm(root->left);
+    Dpair *rightpair = findm(root->right);
+    Dpair *mp = new Dpair;  // mypair
+    mp->hight = max(leftpair->hight,rightpair->hight)+1;
+
+    int re = leftpair->hight+rightpair->hight+2;
+    mp->dia = max(re,max(leftpair->dia,rightpair->dia));
+    return mp;
+}
+
+
+int main()
+{
+    tree *root;
+    root = newnode(1);
+    root->left = newnode(2);
+    root->right= newnode(3);
+    root->left->left = newnode(4);
+    root->left->right = newnode(5);
+    root->right->left = newnode(6);
+    root->right->left->left = newnode(8);
+    root->right->left->left->right = newnode(8);
+    root->right->left->left->right->left= newnode(9);
+
+    root->right->right = newnode(7);
+    root->right->right->left = newnode(10);
+    root->right->right->left->left = newnode(11);
+    root->right->right->left->left->left = newnode(12);
+    
+    // diameter of  a binary tree
+    Dpair *p = findm(root);   //p contains both diameter and the hight 
+    cout<<"the diameter is  :  "<<p->dia;
+    return 0;
+}
+
+// another method
+
+/*
+#include <bits/stdc++.h>
+using namespace std;
+
+struct TreeNode
+{
+    int val;
+    struct TreeNode *left, *right;
+};
+
+struct TreeNode *newTreeNode(int val)
+{
+    TreeNode *temp;
+    temp = (struct TreeNode *)malloc(sizeof(struct TreeNode));
+    temp->val = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+int findh(TreeNode *root)
+{
+    if(root == NULL)
+    {
+        return -1;
+    }
+    int lh = findh(root->left);
+    int rh = findh(root->right);
+    int mh = max(lh,rh)+1;
+    return mh;
+}
+
+int dia(TreeNode *root)
+{
+    if(root == NULL)
+    {
+        return 0;
+    }
+    int one = findh(root->left)+ findh(root->right)+2;    // left_hight+right_hight+2
+    int two = dia(root->left);    // dia of left 
+    int three = dia(root->right);  // dia of right     
+
+    int ans = max(one,two);    // max(one,two,three)
+    ans = max(ans,three);
+    return ans;
+}
+
+int main()
+{
+    TreeNode *root;
+    root = newTreeNode(1);
+    root->left = newTreeNode(2);
+    root->right= newTreeNode(3);
+    root->left->left = newTreeNode(4);
+    root->left->right = newTreeNode(5);
+    root->right->left = newTreeNode(6);
+    root->right->left->left = newTreeNode(8);
+    root->right->left->left->right = newTreeNode(8);
+    root->right->left->left->right->left= newTreeNode(9);
+
+    root->right->right = newTreeNode(7);
+    root->right->right->left = newTreeNode(10);
+    root->right->right->left->left = newTreeNode(11);
+    root->right->right->left->left->left = newTreeNode(12);
+
+    // finddia
+    int diameter = dia(root);
+    cout<<diameter;
+    return 0;
+
+}
+
+*/
+
+
+
+
+
+

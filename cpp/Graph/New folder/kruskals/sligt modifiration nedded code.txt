@@ -1,0 +1,160 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct cls
+{
+public:
+    int src;
+    int dst;
+    int cost;
+};
+
+class cmp
+{
+public:
+    bool operator()(cls a, cls b)
+    {
+        if (a.cost > b.cost)
+        {
+            return true;
+        }
+        return false;
+    }
+};
+
+bool util(int v, vector<vector<int>> adj, vector<int> visited)
+{
+    if (visited[v] == 2)
+    {
+        return true;
+    }
+
+    visited[v] = 1;
+    for (auto node : adj[v])
+    {
+        if (visited[node] == 1)
+        {
+            visited[node] = 2;
+            continue;
+        }
+        else
+        {
+            if (util(node, adj, visited))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool iscycle(int v, vector<vector<int>> temp, int src, int dst)
+{
+
+    vector<vector<int>> adj(7);
+    for (int i = 0; i < temp.size(); i++)
+    {
+        for (int j = 0; j < temp[i].size(); j++)
+        {
+            adj[i].push_back(temp[i][j]);
+        }
+    }
+
+    adj[src].push_back(dst);
+    adj[dst].push_back(src);
+
+    vector<int> visited(v, 0);
+
+    for (int i = 0; i < v; i++)
+    {
+        visited[i] = 1;
+        for (int j = 0; j < adj[i].size(); j++)
+        {
+            if (util(adj[i][j], adj, visited))
+            {
+                return true;
+            }
+        }
+        visited[i] = 0;
+    }
+    return false;
+}
+
+void krus(int n, vector<vector<pair<int, int>>> abc)
+{
+    priority_queue<cls, vector<cls>, cmp> pq;
+    vector<vector<bool>> visited(n, vector<bool>(n, false));
+    for (int i = 0; i < abc.size(); i++)
+    {
+        // for node i
+        for (int j = 0; j < abc[i].size(); j++)
+        {
+            cls temp;
+            temp.src = i;
+            temp.dst = abc[i][j].first;
+            temp.cost = abc[i][j].second;
+            if (visited[temp.src][temp.dst] == false && visited[temp.dst][temp.src] == false)
+            {
+                visited[temp.src][temp.dst] = true;
+                pq.push(temp);
+                // cout << "\npq got :  " << temp.src << "  " << temp.dst;
+            }
+        }
+    }
+
+    vector<vector<int>> adj(7);
+
+    while (!pq.empty())
+    {
+        // check it was creating a cycle or not
+
+        cls temp = pq.top();
+        pq.pop();
+        int src = temp.src, dst = temp.dst;
+        // cout << "\ngot src and dst as  :  " << src << "  " << dst;
+
+        if (iscycle(n, adj, src, dst))
+        {
+            continue;
+        }
+
+        else
+        {
+            cout << "\nadded edge b/w :  " << src << "  " << dst;
+            adj[src].push_back(dst);
+            adj[dst].push_back(src);
+        }
+    }
+    cout << "\nthe adj is  : \n";
+    for (int i = 0; i < adj.size(); i++)
+    {
+        cout << i << " --> ";
+        for (int j = 0; j < adj[i].size(); j++)
+        {
+            cout << adj[i][j] << " ";
+        }
+        cout << "\n";
+    }
+}
+
+int main()
+{
+    int n = 7;
+    vector<vector<pair<int, int>>> v(7);
+    v[0].push_back(make_pair(1, 10));
+    v[0].push_back(make_pair(3, 40));
+    v[1].push_back(make_pair(0, 10));
+    v[1].push_back(make_pair(2, 10));
+    v[2].push_back(make_pair(1, 10));
+    v[2].push_back(make_pair(3, 10));
+    v[3].push_back(make_pair(0, 40));
+    v[3].push_back(make_pair(4, 2));
+    v[4].push_back(make_pair(3, 2));
+    v[4].push_back(make_pair(5, 3));
+    v[4].push_back(make_pair(6, 2));   
+    v[5].push_back(make_pair(4, 3));
+    v[5].push_back(make_pair(6, 3));
+    v[6].push_back(make_pair(4, 8));
+    v[6].push_back(make_pair(5, 3));
+    krus(n, v);
+}

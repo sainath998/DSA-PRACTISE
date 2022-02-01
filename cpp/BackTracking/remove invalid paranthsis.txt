@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+map<string, int> m;
+
+int getmin(string s)
+{
+    stack<char> st;
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (s[i] == ')')
+        {
+            if (st.empty() || st.top() == ')')
+            {
+                if (m.count(s) == 0)
+                {
+                    st.push(s[i]);
+                }
+            }
+            else
+            {
+                st.pop();
+            }
+        }
+        else
+        {
+            st.push(s[i]);
+        }
+    }
+    return st.size();
+}
+
+void print(string s, int mr)
+{
+    if (mr == 0)
+    {
+        if (getmin(s) == 0)
+        {
+            m.insert(make_pair(s, 1));
+
+            cout << s << endl;
+        }
+        return;
+    }
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        string left = s.substr(0, i + 1), right = s.substr(i + 2);
+        print(left + right, mr - 1);
+    }
+}
+
+int main()
+{                         // .  .
+    string s = "()())()"; // => ()()() , (())()
+    int n = s.length();
+
+    int min = getmin(s);
+    print(s, min);
+    cout << min;
+    return 0;
+}

@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next;
+};
+
+void reverseutil(node *root,node *tail)
+{
+    if(root == NULL)
+    {
+        return ;
+    }
+    reverse(root->next,tail);
+
+}
+
+void reverse(node *root,node*tail)
+{
+    reverseutil(root,tail);
+    // root has to be changed to last and tail to first
+    root->next = NULL;
+    node *temp;
+    temp = root;
+    root = tail;
+    tail  = root;
+}
+
+int main()
+{
+
+    node *root;
+    reverse(root,tail);
+}

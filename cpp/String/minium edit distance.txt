@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string s1 = "kabc";
+    string s2 = "kobd";
+    int m= s1.length();
+    int n = s2.length();
+    int dp[m+1][n+1];
+    for (int i = 0; i <= m; i++)
+    {
+        for (int j = 0; j <=n; j++)
+        {
+            if (i == 0 || j == 0)
+            {
+                if (i == 0)
+                {
+                    dp[i][j] = j;
+                }
+                else
+                {
+                    dp[i][j] = i;
+                }
+            }
+            else if(s1[i] == s2[j])
+            {
+                dp[i][j] = dp[i-1][j-1];
+            }
+            else
+            {
+                int k = min(dp[i-1][j-1],dp[i][j-1]);
+                dp[i][j]  = 1+min(dp[i-1][j],k);
+            }
+        }
+    }
+    cout<<"ans was  :  "<<dp[m][n];
+    return 0;
+}

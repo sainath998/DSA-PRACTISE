@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+	int arr[] = {1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+	int n = sizeof(arr) / sizeof(int);
+	int lmax[n];
+	int rmax[n];
+	lmax[0] = arr[0];
+	int max = arr[0];
+	for (int i = 1; i < n; i++)
+	{
+		if (max < arr[i])
+		{
+			max = arr[i];
+			lmax[i] = max;
+		}
+		else
+		{
+			lmax[i] = max;
+		}
+	}
+	max = arr[n - 1];
+	rmax[n - 1] = arr[n - 1];
+	for (int i = n - 2; i >= 0; i--)
+	{
+		if (max < arr[i])
+		{
+			max = arr[i];
+			rmax[i] = max;
+		}
+		else
+		{
+			rmax[i] = max;
+		}
+	}
+	int water = 0;
+	int ans[n];
+	for (int i = 0; i < n; i++)
+	{
+		int value = min(lmax[i] ,rmax[i]) - arr[i];
+		if (value >= 0)
+		{
+			water = water + value;
+			ans[i] = value;
+		}
+		else
+		{
+			ans[i] =0;
+		}
+	}
+	cout<<"\nwater in each column is :  ";
+	for(int i = 0;i<n;i++)
+	{
+		cout<<ans[i]<<"  ";
+	}
+	cout<<"\nthe water sotred is :  "<<water;
+	return 0;
+}

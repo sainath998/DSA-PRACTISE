@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  int arr[] = {2,6,1,9,4,5,3};
+  int n = sizeof(arr)/sizeof(int);
+  set<int> nms;
+  int result =0;
+  int streak =0;
+  for(int i=0;i<n;i++)
+  {
+    nms.insert(arr[i]);
+  }
+  for(int i=0;i<n;i++)
+  {
+    if(!nms.count(arr[i]-1))
+    {
+      streak = 1;
+      int currentnum = arr[i];
+      while (nms.count(currentnum+1))
+      {
+        currentnum = currentnum+1;
+        streak = streak+1;
+      }
+      result  = max(result,streak);
+    }
+  }
+  cout<<"the max subsequence is  :  "<<result;
+  return 0;
+}

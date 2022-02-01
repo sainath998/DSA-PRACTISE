@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n;
+    cin >> n;
+    int i=n;
+    stack<int> s;
+    if(n==0)
+    {
+        cout<<"0";
+        return 0;
+    }
+    bool flag = false;
+    i = sqrt(n);
+    s.push(i);
+    int j = n-i*i;
+    while (pow(sqrt(j),2) != j  && j!=0)
+    {
+        if(j==1)
+        {
+            break;
+        }
+        int oldj = j;
+        int k  = sqrt(j);
+        s.push(k);
+        j = oldj- k*k;
+    }
+    if(j == 1)
+    {
+        s.push(j);
+    }
+    while (s.empty() == false)
+    {
+        cout<<s.top()<<"  ";
+        s.pop();
+    }
+    return 0;
+}

@@ -1,0 +1,191 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+pair<int, int> addEdge(vector<pair<int, int>> graph[], int a, int b)
+{
+    graph[a].push_back(make_pair(b, 0));
+    graph[b].push_back(make_pair(a, 0));
+}
+
+bool UisCyclicUtil(int n, vector<pair<int, int>> graph[], int i, vector<int> &visited)
+{
+    if (visited[i] == 1)
+    {
+        return true;
+    }
+
+    if (visited[i] == 2)
+    {
+        return false;
+    }
+    visited[i] = 1;
+    for (auto j : graph[i])
+    {
+        if (UisCyclicUtil(n, graph, j.first, visited))
+        {
+            return true;
+        }
+    }
+    visited[i] = 2;
+
+    return false;
+}
+
+bool UisCyclic(int n, vector<pair<int, int>> graph[])
+{
+    vector<int> visited(n, false);
+
+    if (UisCyclicUtil(n, graph, 0, visited))
+    {
+        return true;
+    }
+    return false;
+}
+
+// bidrectional
+bool isCyclicUtil(int n, vector<pair<int, int>> graph[], int i, vector<int> visited)
+{
+    if (visited[i] == 2)
+    {
+        return true;
+    }
+    visited[i] = 1;
+    for (auto j : graph[i])
+    {
+        if (visited[j.first] == 1)
+        {
+            visited[j.first] = 2;
+        }
+        else
+        {
+            if (isCyclicUtil(n, graph, j.first, visited))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// bidirectional  0-> not visited 1-> make it two   2-> return true
+bool isCyclic(vector<pair<int, int>> graph[], int n)
+{
+    vector<int> visited(n, 0);
+
+    for (int i = 0; i < n; i++)
+    {
+        visited[i] = 1;
+        // for(auto j : graph[i])
+        // {
+        if (isCyclicUtil(n, graph, i, visited))   // if u remove comment the keep j.first instead of i
+        {
+            return true;
+        }
+        // }
+        visited[i] = 0;
+    }
+    return false;
+}
+
+void dfs(int n, vector<pair<int, int>> graph[])
+{
+    int start = 0;
+
+    stack<int> s;
+    s.push(0);
+    vector<bool> visited(n, false);
+    visited[0] = true;
+    string ans = "";
+    while (!s.empty())
+    {
+        int rem = s.top();
+        ans = ans + to_string(rem) + " ";
+        s.pop();
+        for (auto i : graph[rem])
+        {
+            if (visited[i.first] == false)
+            {
+                visited[i.first] = true;
+                s.push(i.first);
+            }
+        }
+    }
+    cout << ans << "\n";
+}
+
+void bfs(int n, vector<pair<int, int>> graph[])
+{
+    queue<int> q;
+    q.push(0);
+    vector<bool> visited(n, false);
+    visited[0] = true;
+    string ans = "";
+    while (!q.empty())
+    {
+        int rem = q.front();
+        ans = ans + to_string(rem) + " ";
+        q.pop();
+
+        for (auto i : graph[rem])
+        {
+            if (visited[i.first] == false)
+            {
+                q.push(i.first);
+                visited[i.first] = true;
+            }
+        }
+    }
+    cout << ans << "\n";
+}
+
+int main()
+{
+    // greedy
+
+    int n = 6;
+    vector<pair<int, int>> graph[n];
+
+    addEdge(graph, 0, 1);
+    addEdge(graph, 2, 0);
+    addEdge(graph, 5, 2);
+    addEdge(graph, 1, 3);
+    addEdge(graph, 1, 4);
+    addEdge(graph, 5, 4); // reverse the 5,4 to make it cyclic in uni directinal graph
+
+    cout << "the graph  is : \n";
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << i << " --> ";
+        for (auto node : graph[i])
+        {
+            cout << node.first << " ";
+        }
+        cout << "\n";
+    }
+    cout << "\nthe dfs is :  ";
+    dfs(n, graph);
+    cout << "\nthe bfs is : ";
+    bfs(n, graph);
+    bool flag = isCyclic(graph, n);
+    if (flag)
+    {
+        cout << "\nCyclic";
+    }
+    else
+    {
+        cout << "\nNot Cyclic";
+    }
+    // it will give cyclic as bidirectional has two way direction
+    flag = UisCyclic(n, graph);
+    if (flag)
+    {
+        cout << "\ncyclic";
+    }
+    else
+    {
+        cout << "\nNot Cyclic";
+    }
+
+    return 0;
+}

@@ -1,0 +1,51 @@
+
+int countRev (string s)
+{
+    // {{  -> take one operation   => {}
+    // }}}    {{{  ->  1(}})  1({{)    2->(}{)  => even of 1 contribute half part if extra exit then +1(as it contribute for 2 reverseals for l and r)
+// => celli of l/2 ans celli of r/2 (not include the perfect brackets which are already in matched)
+    stack<char> st;
+    int cl = 0,o=0;
+    if(s.size()%2 !=0)
+    {
+        return -1;
+    }
+    
+    for(int i=0;i<s.length();i++)
+    {
+        char c = s[i];
+        if(s[i] == '{')
+        {
+            o++;
+            st.push(c);
+        }
+        else if(s[i] == '}'  && !st.empty() && st.top() == '{')
+        {
+            o--;
+            st.pop();
+        }
+        else
+        {
+            cl++;
+            st.push(c);
+        }
+    }
+    int ans =0;
+    if(cl%2 == 0)
+    {
+        ans = ans + cl/2;
+    }
+    else
+    {
+        ans= ans+ cl/2+1;
+    }
+    if(o%2 == 0)
+    {
+        ans = ans+ o/2;
+    }
+    else
+    {
+        ans  = ans+ o/2+1;
+    }
+    return ans;
+}

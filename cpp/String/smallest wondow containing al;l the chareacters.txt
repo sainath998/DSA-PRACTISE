@@ -1,0 +1,70 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string s = "AABBBCBBACAA";
+    int rcount =0;
+    int n = s.length();
+    map<char,int> k;
+    map<char,int> m;
+    for(int i=0;i<n;i++)
+    {
+        char ch = s[i];
+        if(m.count(ch) == 0)
+        {
+            m.insert({ch,1});
+            k.insert({ch,0});
+            rcount++;
+        }
+    }
+    int count =0;
+    int ans = n;
+    int i=-1,j=-1;
+    while (true)
+    {
+        bool f1= false;
+        bool f2 = false;
+        // inserttion for forming a window
+        while (i < n && rcount > count)
+        {
+            f1 = true;
+            i++;
+            char ch = s[i];
+            if(k[ch] == 0)
+            {
+                count++;
+                k[ch] =1;
+            }
+            else
+            {
+                k[ch]++;
+            }
+        }
+        cout<<"\ngot i as  :  "<<i;
+        while (j< n && count == rcount)
+        {
+            f2 = true;
+            ans = min(ans,i-j);
+            j++;
+            char ch = s[j];
+            if(k[ch] == 1)
+            {
+                k[ch]=0;
+                count--;
+            }
+            else
+            {
+                k[ch]--;
+            }
+        }
+        cout<<"\ngot j as  :  "<<j;
+        
+        if(f2 == false && f1 == false)
+        {
+            break;
+        }
+    }
+    cout<<"\nans is  :  "<<ans;
+    return 0;
+}
